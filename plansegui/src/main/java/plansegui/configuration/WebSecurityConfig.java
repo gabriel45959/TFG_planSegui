@@ -14,10 +14,10 @@ import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 @EnableWebSecurity
 public class WebSecurityConfig extends WebSecurityConfigurerAdapter {
 
-	
-	
+		
 	  @Autowired
 	  private DataSource dataSource;
+	  
 	
 	  @Override
 	  protected void configure(AuthenticationManagerBuilder auth) throws Exception {
@@ -31,22 +31,23 @@ public class WebSecurityConfig extends WebSecurityConfigurerAdapter {
 	    
 	  }
 	  
-
-
+	
 	  @Override
 	  protected void configure(HttpSecurity http) throws Exception {
 		  
-		
-		  http.authorizeRequests()
-          .antMatchers("/login").permitAll().and().authorizeRequests()
-          .antMatchers("/admin/*").access("hasRole('ADMIN')")
-          .antMatchers("/venta/*").access("hasRole('USUARIO')")
-          .and().exceptionHandling().accessDeniedPage("/403")
-          .and().formLogin()
-          .loginPage("/login")
-          .loginProcessingUrl("/j_spring_security_check").usernameParameter("username").passwordParameter("password")
-          .and().logout().logoutUrl("/j_spring_security_logout").logoutSuccessUrl("/").clearAuthentication(true);
-         
+		 
+		  http.authorizeRequests().antMatchers("/js/**",
+	                "/css/**",
+	                "/img/**","/style/**","/fonts/**").permitAll()
+		  .and().authorizeRequests()
+		  	.antMatchers("/login").anonymous()
+		  	.antMatchers("/venta/**").hasAnyAuthority("VENTA")
+			.antMatchers("/admin/**").hasAnyAuthority("ADMIN")
+			.and().formLogin().loginPage("/login").loginProcessingUrl("/j_spring_security_check").usernameParameter("username").passwordParameter("password").successHandler(new SimpleAuthenticationSuccessHandler())
+			.and().exceptionHandling().accessDeniedPage("/403")
+			.and().logout().logoutUrl("/j_spring_security_logout").logoutSuccessUrl("/login").clearAuthentication(true);
+		  
+
 		
 	  }
 

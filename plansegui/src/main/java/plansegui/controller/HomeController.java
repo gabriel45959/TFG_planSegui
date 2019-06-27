@@ -1,10 +1,10 @@
 package plansegui.controller;
 
-import java.util.Collection;
-
+import org.apache.commons.logging.Log;
+import org.apache.commons.logging.LogFactory;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.authentication.AnonymousAuthenticationToken;
 import org.springframework.security.core.Authentication;
-import org.springframework.security.core.GrantedAuthority;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.stereotype.Controller;
@@ -12,27 +12,23 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.servlet.ModelAndView;
+import plansegui.hibernate.services.UsuarioService;
 
 @Controller
 public class HomeController {
+	
+	private Log log = LogFactory.getLog(HomeController.class);
+	
+	@Autowired
+	private UsuarioService usuarioService;
 
-	@RequestMapping(value = { "/" }, method = RequestMethod.GET)
-	public ModelAndView defaultPage() {
+	@RequestMapping(value = "/", method = RequestMethod.GET)
+	public ModelAndView home() {
 
 		ModelAndView model = new ModelAndView();
-
-		model.addObject("message", "This is default page!");
-
-		if (hasRole("ADMIN")) {
-			model.addObject("title", "rol: ADMIN");
-			model.setViewName("/admin/admin");
-		} else if (hasRole("USUARIO")) {
-			model.addObject("title", "rol: USUARIO");
-			model.setViewName("venta/cargarPedido");
-		} else {
-			model.setViewName("login");
-		}
-
+		
+		log.info("HomeController -------------------------------------------------------------- home");
+		model.setViewName("/login");
 		return model;
 
 	}
@@ -44,11 +40,13 @@ public class HomeController {
 
 		ModelAndView model = new ModelAndView();
 		if (error != null) {
-			model.addObject("error", "Invalid username and password!");
+			log.info("HomeController -------------------------------------------------------------- "+"Contraseña incorrecta!");
+			model.addObject("error", "Contraseña incorrecta!");
 		}
 
 		if (logout != null) {
-			model.addObject("msg", "You've been logged out successfully.");
+			log.info("HomeController -------------------------------------------------------------- "+"Salio del sistema!!");
+			model.addObject("msg", "Salio del sistema!.");
 		}
 		model.setViewName("login");
 
@@ -61,36 +59,11 @@ public class HomeController {
 	public ModelAndView accesssDenied() {
 
 		ModelAndView model = new ModelAndView();
-
-		// check if user is login
-		Authentication auth = SecurityContextHolder.getContext()
-				.getAuthentication();
-		if (!(auth instanceof AnonymousAuthenticationToken)) {
-			UserDetails userDetail = (UserDetails) auth.getPrincipal();
-			model.addObject("username", userDetail.getUsername());
-		}
-
+		
+		log.info("HomeController -------------------------------------------------------------- accesssDenied");
 		model.setViewName("403");
 		return model;
 
 	}
 
-	private boolean hasRole(String role) {
-
-		boolean hasRole = false;
-		try {
-			Collection<GrantedAuthority> authorities = (Collection<GrantedAuthority>) SecurityContextHolder
-					.getContext().getAuthentication().getAuthorities();
-
-			for (GrantedAuthority authority : authorities) {
-				hasRole = authority.getAuthority().equals(role);
-				if (hasRole) {
-					break;
-				}
-			}
-		} catch (NullPointerException e) {
-			hasRole = false;
-		}
-		return hasRole;
-	}
 }
