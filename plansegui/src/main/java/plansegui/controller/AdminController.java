@@ -49,13 +49,9 @@ public class AdminController {
 		
 		ModelAndView model = new ModelAndView();
 
-		model.addObject("message", "This is default page!");
-
 		List<Usuario> usuarios = usuarioService.getUsuarios();
 		log.info("AdminController -------------------------------------------------------------- "
 				+ usuarios.size()+"-------------- role size: "+usuarios.get(0).getRole().size());
-		model.addObject("TituloVentana", "rol: ADMIN");
-		model.addObject("NombrePantalla","Administrar Usuarios");
 		model.addObject("usuarios", usuarios);
 		model.addObject("MenuOpcionExtras",DefinirMenu.setItemMenu(usuarioService.getUsuario(DefinirMenu.USUARIO_CONECTADO).getRole()));
 		

@@ -41,6 +41,9 @@ public class Pedido {
 	@Column(name = "pe_fecha_creacion")
 	private Date fechaCreacion;
 	
+	@Column(name = "pe_observaciones")
+	private String observaciones;
+	
 	public void addDetallePedido(DetallePedido detallePedido1) {
 		detallePedido.add(detallePedido1);
 		detallePedido1.setPedido(this);
@@ -97,6 +100,14 @@ public class Pedido {
 
 	public void setDetallePedido(List<DetallePedido> detallePedido) {
 		this.detallePedido = detallePedido;
+	}
+
+	public String getObservaciones() {
+		return observaciones;
+	}
+
+	public void setObservaciones(String observaciones) {
+		this.observaciones = observaciones;
 	}
 	
 	
