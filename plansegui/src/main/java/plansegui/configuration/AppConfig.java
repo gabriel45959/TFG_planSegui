@@ -7,10 +7,12 @@ import javax.sql.DataSource;
 
 import org.apache.commons.logging.Log;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.context.MessageSource;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.ComponentScan;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.context.annotation.PropertySource;
+import org.springframework.context.support.ResourceBundleMessageSource;
 import org.springframework.core.env.Environment;
 import org.springframework.jdbc.datasource.DriverManagerDataSource;
 import org.springframework.orm.hibernate5.HibernateTransactionManager;
@@ -23,8 +25,10 @@ import org.apache.commons.logging.LogFactory;
 @PropertySource("classpath:db.properties")
 @EnableTransactionManagement
 @ComponentScan(basePackages = {
-	    "plansegui.hibernate"
+	    "plansegui.hibernate",
+	    "plansegui.validator"
 	})
+
 public class AppConfig {
 
 	private Log log = LogFactory.getLog(AppConfig.class);
@@ -58,6 +62,7 @@ public class AppConfig {
         properties.put("hibernate.show_sql", env.getRequiredProperty("hibernate.show_sql"));
         properties.put("hibernate.format_sql", env.getRequiredProperty("hibernate.format_sql"));
         properties.put("hibernate.hbm2ddl.auto", env.getRequiredProperty("hibernate.hbm2ddl.auto"));
+        properties.put("hibernate.enable_lazy_load_no_trans", env.getRequiredProperty("hibernate.enable_lazy_load_no_trans"));
         return properties;
 	}
 	  
@@ -67,4 +72,12 @@ public class AppConfig {
 	        transactionManager.setSessionFactory(sessionFactory().getObject());
 	        return transactionManager;
 	    }  
+	 
+	 @Bean
+	   public MessageSource messageSource() {
+	      ResourceBundleMessageSource source = new ResourceBundleMessageSource();
+	      source.setBasename("messages");
+	      return source;
+	   }
+	
 } 

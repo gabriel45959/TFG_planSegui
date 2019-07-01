@@ -12,6 +12,7 @@ import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 
 
 @EnableWebSecurity
+
 public class WebSecurityConfig extends WebSecurityConfigurerAdapter {
 
 		
@@ -25,8 +26,8 @@ public class WebSecurityConfig extends WebSecurityConfigurerAdapter {
 	    auth.jdbcAuthentication().dataSource(dataSource)
 	        .usersByUsernameQuery("select nombre_usuario, clave, habilitado"
 	            + " from usuario where nombre_usuario=?")
-	        .authoritiesByUsernameQuery("select au_nombre_usuario, au_id_rol "
-	            + "from autorizacion where au_nombre_usuario=?")
+	        .authoritiesByUsernameQuery("select nombre_usuario, id_rol "
+	            + "from role where nombre_usuario=?")
 	        .passwordEncoder(new BCryptPasswordEncoder());
 	    
 	  }
@@ -41,7 +42,7 @@ public class WebSecurityConfig extends WebSecurityConfigurerAdapter {
 	                "/img/**","/style/**","/fonts/**").permitAll()
 		  .and().authorizeRequests()
 		  	.antMatchers("/login").anonymous()
-		  	.antMatchers("/venta/**").hasAnyAuthority("VENTA")
+		  	.antMatchers("/venta/**").hasAnyAuthority("VENTA","ADMIN")
 			.antMatchers("/admin/**").hasAnyAuthority("ADMIN")
 			.and().formLogin().loginPage("/login").loginProcessingUrl("/j_spring_security_check").usernameParameter("username").passwordParameter("password").successHandler(new SimpleAuthenticationSuccessHandler())
 			.and().exceptionHandling().accessDeniedPage("/403")
@@ -50,6 +51,6 @@ public class WebSecurityConfig extends WebSecurityConfigurerAdapter {
 
 		
 	  }
-
-	
+	  
+	 
 }
