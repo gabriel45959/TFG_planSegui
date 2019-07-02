@@ -7,4 +7,5 @@ import plansegui.hibernate.entities.Empresa;
 public interface EmpresaService {
 	public List<Empresa> getEmpresa();
 	public void guardarEmpresa(Empresa empresa);
+	public Empresa buscarEmpresa(long id);
 }

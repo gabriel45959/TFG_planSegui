@@ -47,6 +47,10 @@ public class DetallePedido {
 
 	@OneToMany(mappedBy = "detallePedido", cascade = CascadeType.ALL, orphanRemoval = true)
 	private List<ReservaMateriaPrima> reservaMateriaPrima;
+	
+	@OneToMany(mappedBy = "detallePedido", cascade = CascadeType.ALL, orphanRemoval = true)
+	private List<ProblemaReportado> problemaReportado;
+	
 
 	@Override
 	public boolean equals(Object o) {
@@ -56,7 +60,15 @@ public class DetallePedido {
 			return false;
 		return id != null && id.equals(((DetallePedido) o).getId());
 	}
+	public void addProblemaReportado(ProblemaReportado problemaReportado) {
+		this.problemaReportado.add(problemaReportado);
+		problemaReportado.setDetallePedido(this);
+	}
 
+	public void removeProblemaReportado(ProblemaReportado problemaReportado) {
+		this.problemaReportado.remove(problemaReportado);
+		problemaReportado.setDetallePedido(null);
+	}
 	public void addPlanificacion(Planificacion planificacion1) {
 		planificacion.add(planificacion1);
 		planificacion1.setDetallePedido(this);
@@ -152,5 +164,14 @@ public class DetallePedido {
 		this.reservaMateriaPrima = reservaMateriaPrima;
 	}
 
+	public List<ProblemaReportado> getProblemaReportado() {
+		return problemaReportado;
+	}
+
+	public void setProblemaReportado(List<ProblemaReportado> problemaReportado) {
+		this.problemaReportado = problemaReportado;
+	}
+
+	
 	
 }

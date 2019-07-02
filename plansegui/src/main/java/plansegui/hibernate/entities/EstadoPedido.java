@@ -13,8 +13,8 @@ public class EstadoPedido {
 
 	@Id
 	@GeneratedValue(strategy=GenerationType.IDENTITY)
-	@Column(name = "es_id")
-	private long id;
+	@Column(name = "es_id",unique=true)
+	private Long id;
 	
 	@Column(name = "es_nombre")
 	private String nombre;
@@ -24,12 +24,12 @@ public class EstadoPedido {
 	private String descipcion;
 
 
-	public long getId() {
+	public Long getId() {
 		return id;
 	}
 
 
-	public void setId(long id) {
+	public void setId(Long id) {
 		this.id = id;
 	}
 

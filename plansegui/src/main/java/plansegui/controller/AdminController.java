@@ -44,7 +44,7 @@ public class AdminController {
 	}
 	
 	
-	@RequestMapping(value = { "/administrar" }, method = RequestMethod.GET)
+	@RequestMapping(value = { "/listarUsuarios" }, method = RequestMethod.GET)
 	public ModelAndView administrar() {
 		
 		ModelAndView model = new ModelAndView();
@@ -54,8 +54,8 @@ public class AdminController {
 				+ usuarios.size()+"-------------- role size: "+usuarios.get(0).getRole().size());
 		model.addObject("usuarios", usuarios);
 		model.addObject("MenuOpcionExtras",DefinirMenu.setItemMenu(usuarioService.getUsuario(DefinirMenu.USUARIO_CONECTADO).getRole()));
-		
-		model.setViewName("/admin/admin");
+		model.addObject("NombrePantalla","Listar usuarios");
+		model.setViewName("/admin/listarUsuarios");
 		
 		Usuario usr= new Usuario();
 		usr.addRole(new Role());
@@ -75,7 +75,6 @@ public class AdminController {
 		List<Usuario> usuarios = usuarioService.getUsuarios();
 		log.info("AdminController -------------------------------------------------------------- "
 				+ usuarios.size()+"-------------- role size: "+usuarios.get(0).getRole().size());
-		model.addObject("TituloVentana", "rol: ADMIN");
 		model.addObject("NombrePantalla","Administrar Usuarios");
 		model.addObject("usuarios", usuarios);
 		model.addObject("MenuOpcionExtras",DefinirMenu.setItemMenu(usuarioService.getUsuario(DefinirMenu.USUARIO_CONECTADO).getRole()));
@@ -93,11 +92,11 @@ public class AdminController {
 	}
 	
 	@RequestMapping(value = { "/crearUsuario" }, method = RequestMethod.POST)
-	public ModelAndView  crearUsuario(@ModelAttribute("cargarUsuario") @Validated Usuario usr,
+	public String  crearUsuario(@ModelAttribute("cargarUsuario") @Validated Usuario usr,
 			BindingResult result, Model model1, final RedirectAttributes redirectAttributes){
-		ModelAndView model = new ModelAndView();
-		model.addObject("MenuOpcionExtras",DefinirMenu.setItemMenu(usuarioService.getUsuario(DefinirMenu.USUARIO_CONECTADO).getRole()));
-		model.setViewName("/admin/crearUsuario");
+
+		redirectAttributes.addFlashAttribute("NombrePantalla","Crear Usuarios");
+		
 		BCryptPasswordEncoder encrypt=new BCryptPasswordEncoder();
 		
 		if(!result.hasErrors()){
@@ -106,16 +105,17 @@ public class AdminController {
 			usuarioService.guardarUsuario(usr);
 			redirectAttributes.addFlashAttribute("css", "success");
 			redirectAttributes.addFlashAttribute("msg", "El usurario fue creado!!");
-			//return "redirect:/admin/crearUsuario";
+			return "redirect:/admin/crearUsuario";
 		}else{
-			redirectAttributes.addFlashAttribute("modalopen", "false");
-			redirectAttributes.addFlashAttribute("css", "warning");
-			redirectAttributes.addFlashAttribute("msg", "Faltan datos!!");
+			model1.addAttribute("modalopen", "false");
+			model1.addAttribute("css", "warning");
+			model1.addAttribute("msg", "Faltan ingresar datos!!");
+			model1.addAttribute("MenuOpcionExtras",DefinirMenu.setItemMenu(usuarioService.getUsuario(DefinirMenu.USUARIO_CONECTADO).getRole()));
 		}
 		
 		
-		return model;
-		//return "/admin/crearUsuario";
+		//return model;
+		return "/admin/crearUsuario";
 	}
 
 }

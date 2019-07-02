@@ -14,6 +14,7 @@ import javax.persistence.JoinColumn;
 import javax.persistence.OneToMany;
 import javax.persistence.OneToOne;
 import javax.persistence.Table;
+import javax.validation.constraints.NotNull;
 
 
 @Entity(name = "Pedido")
@@ -29,29 +30,32 @@ public class Pedido {
     @JoinColumn(name = "pe_id_empresa", referencedColumnName = "id")
 	private Empresa empresa;
 	
+	@NotNull
 	@Column(name = "pe_nro_factura")
 	private String nroFactura;
 	
 	@OneToMany( mappedBy="pedido", cascade = CascadeType.ALL,  orphanRemoval = true )
 	private List<DetallePedido> detallePedido = new ArrayList<>();
 	
+
 	@Column(name = "pe_fecha_entrega")
 	private Date fechaEntrega;
 	
 	@Column(name = "pe_fecha_creacion")
 	private Date fechaCreacion;
 	
+
 	@Column(name = "pe_observaciones")
 	private String observaciones;
 	
-	public void addDetallePedido(DetallePedido detallePedido1) {
-		detallePedido.add(detallePedido1);
-		detallePedido1.setPedido(this);
+	public void addDetallePedido(DetallePedido detallePedido) {
+		this.detallePedido.add(detallePedido);
+		detallePedido.setPedido(this);
     }
  
-    public void removeDetallePedido(DetallePedido detallePedido1) {
-    	detallePedido.remove(detallePedido1);
-    	detallePedido1.setPedido(null);
+    public void removeDetallePedido(DetallePedido detallePedido) {
+    	this.detallePedido.remove(detallePedido);
+    	detallePedido.setPedido(null);
     }
 	
 	public long getId() {

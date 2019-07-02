@@ -16,7 +16,6 @@
 <script
 	src="${pageContext.request.contextPath}/js/bootstrap_4.3.1.min.js"></script>
 <script src="${pageContext.request.contextPath}/js/popper_1.14.7.min.js"></script>
-<script src="${pageContext.request.contextPath}/js/popper_1.14.7.min.js"></script>
 <script>
 	function formSubmit() {
 		document.getElementById("logoutForm").submit();
@@ -38,48 +37,7 @@
 		});
 	}, 2060);
 
-	$(document).ready(function () {
-	    var counter = 0;
 
-	    $("#addrow").on("click", function () {
-	        var newRow = $("<tr>");
-	        var cols = "";
-
-	        cols += '<td><input type="text" class="form-control" name="producto' + counter + '"/></td>';
-	        cols += '<td><input type="text" class="form-control" name="cantidad' + counter + '"/></td>';
-	        cols += '<td><input type="button" class="ibtnDel btn btn-md btn-danger "  value="Delete"></td>';
-	        newRow.append(cols);
-	        $("table.order-list").append(newRow);
-	        counter++;
-	    });
-
-
-
-	    $("table.order-list").on("click", ".ibtnDel", function (event) {
-	        $(this).closest("tr").remove();       
-	        counter -= 1
-	    });
-
-
-	});
-
-
-
-	function calculateRow(row) {
-	    var price = +row.find('input[name^="price"]').val();
-
-	}
-
-	function calculateGrandTotal() {
-	    var grandTotal = 0;
-	    $("table.order-list").find('input[name^="price"]').each(function () {
-	        grandTotal += +$(this).val();
-	    });
-	    $("#grandtotal").text(grandTotal.toFixed(2));
-	}
-
-
-	
 </script>
 <style type="text/css">
 .error {
@@ -111,8 +69,52 @@
 		</ul>
 	</nav>
 	<!-- CONTENIDOS -->
-	<form:form method="post" modelAttribute="cargarPedido"
-		action="/plansegui/venta/crearpedido">
+	<form:form method="post"  modelAttribute="cargarPedido"
+		action="/plansegui/venta/registrarPedido">
+		<script type="text/javascript">	$(document)
+		.ready(
+				function() {
+					var counter = 0;
+
+					$("#addrow")
+							.on(
+									"click",
+									function() {
+										var newRow = $("<tr>");
+										var cols = "";
+										var aux2='['+counter+']';
+										
+										cols += '<td><form:select id="producto" path="detallePedido[0].producto.id" name="producto' + counter + '" class="form-control"><form:option value="0">Seleccione...</form:option><form:options items="${listaProducto}" itemValue="id" itemLabel="nombre"/></form:select></td>'.replace("[0]",aux2);
+										cols += '<td><form:input type="text" path="detallePedido[0].cantidad" class="form-control" name="cantidad' + counter + '"/></td>'.replace("[0]",aux2);
+										cols += '<td><input type="button" class="ibtnDel btn btn-md btn-danger "  value="Eliminar"></td>';
+										newRow.append(cols);
+										$("table.order-list")
+												.append(newRow);
+										counter++;
+									});
+
+					$("table.order-list").on("click", ".ibtnDel",
+							function(event) {
+								$(this).closest("tr").remove();
+								counter -= 1
+							});
+
+				});
+
+function calculateRow(row) {
+	var price = +row.find('input[name^="price"]').val();
+
+}
+
+function calculateGrandTotal() {
+	var grandTotal = 0;
+	$("table.order-list").find('input[name^="price"]').each(function() {
+		grandTotal += +$(this).val();
+	});
+	$("#grandtotal").text(grandTotal.toFixed(2));
+}
+
+</script>
 		<div class="container">
 			<div class="col-md-offset-1 col-md-10">
 				<h2>Registrar un pedido de fabricación</h2>
@@ -137,27 +139,28 @@
 							<div class="row align-items-center">
 								<div class="col">
 									<div class="form-group">
-										<label for="empresa">Empresa:</label> <select id="empresa"
-											name="empresa" class="form-control">
-											<option value="">Seleccione...</option>
-											<c:forEach items="${listaEmpresa}" var="empresa">
-												<option value="${empresa}">${empresa.nombre}</option>
-											</c:forEach>
-										</select>
+										<label for="empresa">Empresa:</label> 
+										<form:select id="empresa" path="empresa.id" 
+											name="empresa" class="form-control" >
+											<form:option value="0">Seleccione...</form:option>
+											<form:options items="${listaEmpresa}" itemValue="id" itemLabel="nombre"/>
+										</form:select>
+										<form:errors path="empresa.id" cssClass="error" />
 									</div>
-								</div>
+								</div> 
 								<div class="col">
 									<div class="form-group">
 										<label for="nroFactura">Numero de factura:</label>
-										<form:input id="nroFactura" type="text" class="form-control"
-											path="nroFactura" />
+										<form:input id="nroFactura" type="text" class="form-control" path="nroFactura" />
+										<form:errors path="nroFactura" cssClass="error" />
 									</div>
 								</div>
 
 								<div class="col">
 									<div class="form-group">
-										<label for="fechaEntrega">Fecha de entrega:</label> <input
-											id="fechaEntrega" type="date" name="fechaEntrega"
+										<label for="fechaEntrega">Fecha de entrega:</label> 
+										<form:input
+											id="fechaEntrega" type="date" name="fechaEntrega" path="fechaEntrega"
 											class="form-control" />
 									</div>
 								</div>
@@ -168,42 +171,35 @@
 									<div class="form-group">
 										<label for="observaciones">Observacion:</label>
 										<textarea class="form-control" rows="5" id="observaciones"
-											name="observaciones" class="form-control"></textarea>
+											name="observaciones" class="form-control" ></textarea>
+											<form:errors path="observaciones" cssClass="error" />
 									</div>
 
 								</div>
 							</div>
 							<hr />
 							<div class="row align-items-center">
-							  <div class="col">
-							    <button type="button" class="btn btn-info " id="addrow" />Agregar un producto</button>
-							   </div>
+								<div class="col">
+									<button type="button" class="btn btn-info " id="addrow" />
+									Agregar un producto
+									</button>
+								</div>
 							</div>
 							<br>
 							<div class="row align-items-center">
 								<div class="col">
-									<table class=" table order-list">
-										<tr>
-											<th>Nombre del producto</th>
-											<th>Cantidad</th>
-										</tr>
+									<div >
+										<table class=" table order-list">
+											<thead>
+												<tr>
+													<th >Nombre del producto</th>
+													<th >Cantidad en Kg</th>
+													<th>Eliminar</th>
+												</tr>
+											</thead>
 
-										<!-- loop para mostrar el usuario 
-										<c:forEach var="usuario" items="${usuarios}">
-
-											<tr>
-												<td>${usuario.nombreUsuario}</td>
-												<td>${usuario.nombre}</td>
-												<td>${usuario.apellido}</td>
-												<td><c:forEach var="usuarioRole"
-														items="${usuario.getRole()}">
-											${usuarioRole.rol}<br>
-													</c:forEach></td>
-												<td>${usuario.habilitado?"SI":"NO"}</td>
-											</tr>
-
-										</c:forEach>-->
-									</table>
+										</table>
+									</div>
 								</div>
 							</div>
 						</div>

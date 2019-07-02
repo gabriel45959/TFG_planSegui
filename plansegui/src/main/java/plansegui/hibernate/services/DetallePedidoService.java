@@ -8,4 +8,6 @@ public interface DetallePedidoService {
 	public List<DetallePedido> getDetallePedido();
 	
 	public void guardarDetallePedido(DetallePedido detallePedido);
+	
+	public DetallePedido getDetallePedido(Long id);
 }

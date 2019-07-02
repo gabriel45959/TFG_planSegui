@@ -10,4 +10,6 @@ public interface ProductoService {
 	
 	public void guardarProducto(Producto producto);
 	
+	public Producto getProducto(Long id);
+	
 }

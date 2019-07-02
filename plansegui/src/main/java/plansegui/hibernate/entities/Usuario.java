@@ -19,8 +19,6 @@ public class Usuario {
 
 	@Id
 	@Column(name = "nombre_usuario")
-
-	
 	@NotNull
 	private String nombreUsuario;
 	

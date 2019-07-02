@@ -10,4 +10,6 @@ public interface ProductoDao {
    
    public void guardarPoducto(Producto producto);
    
+   public Producto getProducto(Long id);
+   
 }

@@ -48,12 +48,22 @@ public class SimpleAuthenticationSuccessHandler  implements AuthenticationSucces
 				}
 			} else if(authority.getAuthority().equals("ADMIN")) {
 				try {
-					log.info("SimpleAuthenticationSuccessHandler -------------------------------------------------------------- /admin/administrar "+authority.getAuthority());
-					redirectStrategy.sendRedirect(arg0, arg1, "/admin/administrar");
+					log.info("SimpleAuthenticationSuccessHandler -------------------------------------------------------------- /admin/listarUsuarios "+authority.getAuthority());
+					redirectStrategy.sendRedirect(arg0, arg1, "/admin/listarUsuarios");
 				} catch (Exception e) {
+					log.error(arg2.getName()+" SimpleAuthenticationSuccessHandler --------------------------Error------------------------------------ "+e.getMessage());
 					e.printStackTrace();
 				}
-			} else {
+				
+			} else if(authority.getAuthority().equals("FABRICA")) {
+				try {
+					log.info("SimpleAuthenticationSuccessHandler -------------------------------------------------------------- /admin/administrar "+authority.getAuthority());
+					redirectStrategy.sendRedirect(arg0, arg1, "/fabrica/completarPlanificacion");
+				} catch (Exception e) {
+					log.error(arg2.getName()+" SimpleAuthenticationSuccessHandler --------------------------Error------------------------------------ "+e.getMessage());
+					e.printStackTrace();
+				}
+			}else {
 				log.info("SimpleAuthenticationSuccessHandler -------------------------------------------------------------- IllegalStateException ");
 	            throw new IllegalStateException();
 	        }

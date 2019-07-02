@@ -8,4 +8,7 @@ public interface EstadoPedidoDao {
 	public List<EstadoPedido> getEstadoPedido();
 
 	public void guardarEstadoPedido(EstadoPedido estadoPedido);
+	
+	
+	public EstadoPedido getEstadoPedido(Long id);
 }
