@@ -63,6 +63,7 @@ public class AppConfig {
         properties.put("hibernate.format_sql", env.getRequiredProperty("hibernate.format_sql"));
         properties.put("hibernate.hbm2ddl.auto", env.getRequiredProperty("hibernate.hbm2ddl.auto"));
         properties.put("hibernate.enable_lazy_load_no_trans", env.getRequiredProperty("hibernate.enable_lazy_load_no_trans"));
+        properties.put("hibernate.connection.autocommit", env.getRequiredProperty("hibernate.connection.autocommit"));
         return properties;
 	}
 	  

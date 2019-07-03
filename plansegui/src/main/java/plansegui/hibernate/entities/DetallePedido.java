@@ -35,7 +35,7 @@ public class DetallePedido {
 	@JoinColumn(name = "de_pedido")
 	private Pedido pedido;
 
-	@OneToOne(cascade = CascadeType.ALL)
+	@OneToOne(cascade =  CascadeType.ALL)
 	@JoinColumn(name = "de_estado", referencedColumnName = "es_id")
 	private EstadoPedido estado;
 

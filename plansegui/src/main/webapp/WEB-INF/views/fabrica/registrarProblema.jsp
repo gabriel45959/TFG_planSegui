@@ -28,6 +28,7 @@
 		});
 	}, 1060);
 </script>
+
 </head>
 <body>
 
@@ -56,12 +57,11 @@
 
 	<!-- CONTENIDOS -->
 	<form:form method="post" modelAttribute="registrarProblema"
-		action="/plansegui/fabrica/registrarProblema">
-		
-		<script src="${pageContext.request.contextPath}/js/rowtablaRegistrarProblema.js"></script>
+		action="/plansegui/fabrica/grabarProblema">
+
 		<div class="container">
 			<div class="col-md-offset-1 col-md-10">
-				<h2>Registar nuevo Problema</h2> 
+				<h2>Registar nuevo Problema</h2>
 				<c:if test="${not empty msg}">
 					<div class="alert alert-${css} alert-dismissible" role="alert">
 						<button type="button" class="close" data-dismiss="alert"
@@ -113,28 +113,37 @@
 							</div>
 
 							<hr />
+							<!-- detallePedido -->
+							<form:input type="hidden" path="detallePedido.id" value="${detallePedido.id}"/>
 							<div class="row align-items-center">
 								<div class="col">
-									<button type="button" class="btn btn-info " id="addrow">Agregar
-										un problema</button>
+									<div class="form-group">
+										<label for="tipoProblema">Tipo de Problema:</label>
+										<form:select id="tipoProblema" path="tipoProblema.id"
+											name="tipoProblema" class="form-control">
+											<form:option value="0">Seleccione...</form:option>
+											<form:options items="${listTipoProblema}" itemValue="id"
+												itemLabel="nombre" />
+										</form:select>
+
+									</div> 
+								</div>
+								<div class="col">
+									<div class="form-group">
+										<label for="fechaResolucion">Fecha de Resoluciòn:</label>
+										<form:input id="fechaResolucion" type="date"
+											name="fechaResolucion" path="fechaResolucion"
+											class="form-control" />
+									</div>
 								</div>
 							</div>
 							<br>
 							<div class="row align-items-center">
 								<div class="col">
-									<div>
-										<table class=" table order-list">
-											<thead>
-												<tr>
-													<th>Tipo de problema</th>
-													<th>Fecha estimada de resolucion</th>
-													<th>Onservaciones</th>
-													<th>¿Solucionado?</th>
-												</tr>
-											</thead>
-
-										</table>
-									</div>
+								 <label for="observaciones">Observaciones:</label>
+										<textarea class="form-control" rows="5" id="observaciones"
+											name="observaciones" class="form-control"></textarea>
+										<form:errors path="observaciones" cssClass="error" />
 								</div>
 							</div>
 						</div>

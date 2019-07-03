@@ -45,8 +45,6 @@ public class TipoProblemaDaoImpl implements TipoProblemaDao {
 
 		session.saveOrUpdate(tipoProblema);
 		
-		session.clear();
-
 	}
 
 	@Override

@@ -37,4 +37,12 @@ public class DetallePedidoServiceImpl implements DetallePedidoService {
 		return detallePedidoDao.getDetallePedido(id);
 	}
 
+	@Override
+	@Transactional
+	public void actualizarDetallePedido(DetallePedido detallePedido) {
+		
+		detallePedidoDao.actualizarDetallePedido(detallePedido);
+		
+	}
+
 }

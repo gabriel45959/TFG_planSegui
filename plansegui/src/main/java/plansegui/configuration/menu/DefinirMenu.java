@@ -22,22 +22,30 @@ public  class DefinirMenu {
 			
 			switch (type.getRol()) {
 			case "ADMIN": 
+
+				menuItem+="<li class=\"nav-item dropdown active\">"
+						+ "<a class=\"nav-link dropdown-toggle\" href=\"#\" id=\"navbardrop\" data-toggle=\"dropdown\">Administrar</a>"
 				
-				menuItem+="<li class=\"nav-item\"><a class=\"nav-link\" href=\"/plansegui/admin/crearUsuario\">Registrar nuevo Usuario</a></li>"
-							//+"<li><a data-toggle=\"modal\" href=\"/plansegui/admin/crearUsuario/\"></span>Registrar nuevo Usuario</a></li>"
-						+ "<li class=\"nav-item\"><a class=\"nav-link\" href=\"/plansegui/admin/listarUsuarios\">Listar usuarios</a></li>";
-						//+ "<li><a data-toggle=\"modal\" href=\"/plansegui/admin/administrar/\"></span>Listar usuarios</a></li>";
-								
+				+" <div class=\"dropdown-menu\">"
+					+ "<a class=\"dropdown-item\" href=\"/plansegui/admin/crearUsuario\">Registrar nuevo Usuario</a>"
+									+ "<a class=\"dropdown-item\" href=\"/plansegui/admin/listarUsuarios\">Listar usuarios</a>"
+											+ "</div></div></li>";			
 				continue;
 			case "VENTA":
+				menuItem+="<li class=\"nav-item dropdown active\">"
+						+ "<a class=\"nav-link dropdown-toggle\" href=\"#\" id=\"navbardrop\" data-toggle=\"dropdown\">Ventas</a>"
 				
-				menuItem+="<li class=\"nav-item\"><a class=\"nav-link\" href=\"/plansegui/venta/registrarPedido\">Registrar un pedido</a></li>";
-				//"<li><a data-toggle=\"modal\" href=\"/plansegui/venta/registrarPedido\"></span>Registrar un pedido</a></li>";
+				+" <div class=\"dropdown-menu\">"
+					+ "<a class=\"dropdown-item\" href=\"/plansegui/venta/registrarPedido\">Registrar un pedido</a>"
+											+ "</div></div></li>";			
 				continue;
 			case "FABRICA":
+				menuItem+="<li class=\"nav-item dropdown active\">"
+						+ "<a class=\"nav-link dropdown-toggle\" href=\"#\" id=\"navbardrop\" data-toggle=\"dropdown\">Fabricación</a>"
 				
-				menuItem+="<li class=\"nav-item\"><a class=\"nav-link\" href=\"/plansegui/fabrica/completarPlanificacion\">Completar planificación</a></li>";
-				//"<li><a data-toggle=\"modal\" href=\"/plansegui/venta/registrarPedido\"></span>Registrar un pedido</a></li>";
+				+" <div class=\"dropdown-menu\">"
+					+ "<a class=\"dropdown-item\" href=\"/plansegui/fabrica/completarPlanificacion\">Completar planificación</a>"
+											+ "</div></div></li>";	
 				continue;
 
 			default:

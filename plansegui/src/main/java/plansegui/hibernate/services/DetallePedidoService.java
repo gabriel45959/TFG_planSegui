@@ -10,4 +10,6 @@ public interface DetallePedidoService {
 	public void guardarDetallePedido(DetallePedido detallePedido);
 	
 	public DetallePedido getDetallePedido(Long id);
+	
+	public void actualizarDetallePedido(DetallePedido detallePedido);
 }

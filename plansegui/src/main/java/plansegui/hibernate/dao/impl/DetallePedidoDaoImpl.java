@@ -7,17 +7,21 @@ import javax.persistence.criteria.CriteriaBuilder;
 import javax.persistence.criteria.CriteriaQuery;
 import javax.persistence.criteria.Root;
 
+import org.apache.commons.logging.Log;
+import org.apache.commons.logging.LogFactory;
 import org.hibernate.Session;
 import org.hibernate.SessionFactory;
+import org.hibernate.Transaction;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Repository;
 
 import plansegui.hibernate.dao.DetallePedidoDao;
 import plansegui.hibernate.entities.DetallePedido;
 
-
 @Repository
 public class DetallePedidoDaoImpl implements DetallePedidoDao {
+
+	private Log log = LogFactory.getLog(DetallePedidoDaoImpl.class);
 
 	@Autowired
 	private SessionFactory sessionFactory;
@@ -44,13 +48,53 @@ public class DetallePedidoDaoImpl implements DetallePedidoDao {
 		Session session = sessionFactory.getCurrentSession();
 
 		session.saveOrUpdate(detallePedido);
-		session.clear();
 	}
 
 	@Override
 	public DetallePedido getDetallePedido(Long id) {
+
+		return sessionFactory.getCurrentSession().get(DetallePedido.class, id);
+	}
+
+	@Override
+	public void actualizarDetallePedido(DetallePedido detallePedido) {
+
+		log.info(" DetallePedidoDaoImpl---------------------------------------------------------------------------------------actualizarDetallePedido "
+				+ detallePedido.getEstado().getNombre());
+
+		/*
+		 * Session session = sessionFactory.getCurrentSession();
+		 * 
+		 * DetallePedido detPedAux= session.load(DetallePedido.class,
+		 * detallePedido.getId());
+		 * 
+		 * detPedAux.setEstado(detallePedido.getEstado());
+		 * 
+		 * DetallePedido merDetPed= (DetallePedido) session.merge(detPedAux);
+		 * 
+		 * session.update(merDetPed); session.clear();
+		 */
+
+		Session session = null;
+		Transaction transaction = null;
+		try {
+			session = sessionFactory.getCurrentSession();
+			transaction = session.getTransaction();
+			
+						
+			if(!transaction.isActive()) transaction.begin();
+
+			session.saveOrUpdate(detallePedido);
+
+
+		} catch (Exception e) {
+			if (transaction != null) {
+				transaction.rollback();
+			}
+			e.printStackTrace();
 		
-		return sessionFactory.getCurrentSession().get(DetallePedido.class,id);
+		}
+
 	}
 
 }

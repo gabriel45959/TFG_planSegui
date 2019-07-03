@@ -13,6 +13,7 @@ import javax.persistence.JoinColumn;
 import javax.persistence.ManyToOne;
 import javax.persistence.OneToOne;
 import javax.persistence.Table;
+import javax.validation.constraints.NotNull;
 
 import org.hibernate.annotations.Type;
 
@@ -26,13 +27,15 @@ public class ProblemaReportado {
 	@Column(name = "id",unique=true )
 	private Long id;
 	
+	@NotNull
 	@Column(name = "pr_fecha_resolucion")
 	private Date fechaResolucion;
 	
+	@NotNull
 	@Column(name = "pr_observaciones")
 	private String observaciones;
 	
-	
+	@NotNull
 	@OneToOne(cascade = CascadeType.ALL)
 	@JoinColumn(name = "pr_tipo_problema", referencedColumnName = "id")
 	private TipoProblema tipoProblema;

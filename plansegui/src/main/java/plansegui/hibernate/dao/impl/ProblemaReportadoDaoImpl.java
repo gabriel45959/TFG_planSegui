@@ -43,10 +43,12 @@ public class ProblemaReportadoDaoImpl implements ProblemaReportadoDao {
 	public void guardarProblemaReportado(ProblemaReportado problemaReportado) {
 		
 		Session session = sessionFactory.getCurrentSession();
-
+		
+		
 		session.saveOrUpdate(problemaReportado);
 		
-		session.clear();
+		
+		
 	}
 
 }
