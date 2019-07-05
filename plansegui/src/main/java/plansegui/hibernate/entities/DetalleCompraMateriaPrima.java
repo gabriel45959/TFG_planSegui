@@ -24,7 +24,7 @@ public class DetalleCompraMateriaPrima {
 	@Column(name = "dcmp_id")
 	private long id;
 
-	@OneToOne(cascade = CascadeType.ALL)
+	@OneToOne()
 	@JoinColumn(name = "dcmp_materia_prima", referencedColumnName = "ma_id")
 	private MateriaPrima materiaPrima;
 	

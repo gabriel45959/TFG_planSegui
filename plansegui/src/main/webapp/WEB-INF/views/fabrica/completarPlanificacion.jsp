@@ -36,11 +36,34 @@
 			$(this).remove();
 		});
 	}, 2060);
+	function myFunction() {
+		var input, filter, table, tr, td, i, txtValue;
+		input = document.getElementById("busqueda");
+		filter = input.value.toUpperCase();
+		table = document.getElementById("ListaPedidos");
+		tr = table.getElementsByTagName("tr");
+		for (i = 0; i < tr.length; i++) {
+			td = tr[i].getElementsByTagName("td")[0];
+			if (td) {
+				txtValue = td.textContent || td.innerText;
+				if (txtValue.toUpperCase().indexOf(filter) > -1) {
+					tr[i].style.display = "";
+				} else {
+					tr[i].style.display = "none";
+				}
+			}
+		}
+	}
 </script>
 <style type="text/css">
 .error {
 	color: red;
 }
+
+#busqueda {
+	width: 100%;
+}
+
 </style>
 </head>
 <body>
@@ -71,6 +94,7 @@
 	<div class="continer">
 		<div class="col-md-offset-1 col-md-10">
 			<h2>Completar Planificación de pedidos</h2>
+
 			<c:if test="${not empty msg}">
 				<div class="alert alert-${css} alert-dismissible" role="alert">
 					<button type="button" class="close" data-dismiss="alert"
@@ -83,17 +107,27 @@
 			<hr />
 			<div class="panel panel-primary">
 				<div class="panel-heading"></div>
+
 				<div class="panel-body">
-					<table class="table table-striped table-hover"
+
+					<table id="ListaPedidos" class="table table-striped table-hover"
 						style="border-collapse: collapse;">
 
 						<thead>
 							<tr>
-								<th>&nbsp;</th>
+								<th>
+									<div class="input-group">
+										<label>Nro. de Pedido</label> <input type="text" id="busqueda"
+											onkeyup="myFunction()" placeholder="Buscar pedido...">
+									</div>
+								</th>
 								<th>Cliente</th>
-								<th>Fecha entrega</th>
-								<th>Nro. factura</th>
-								<th>Observaciones</th>
+								<th>Producto</th>
+								<th>Cantidad en Kg</th>
+								<th>Estado del pedido</th>
+								<th>Fecha de entrega</th>
+								<th>Planificar</th>
+								<th>Registrar problema</th>
 							</tr>
 						</thead>
 
@@ -102,57 +136,24 @@
 							<c:forEach var="pedidos" items="${ListPedidos}">
 								<tr data-toggle="collapse" data-target="#demo${pedidos.getId()}"
 									class="accordion-toggle">
-									<td><button class="btn btn-default btn-xs">
-											<span class="glyphicon glyphicon-eye-open"></span>
-										</button></td>
-									<td>${pedidos.getEmpresa().getNombre()}</td>
-									<td>${pedidos.fechaEntrega}</td>
-									<td>${pedidos.nroFactura}</td>
-									<td>${pedidos.observaciones}</td>
 
-								</tr>
-								<tr>
-									<td colspan="12" class="hiddenRow">
-										<div class="accordian-body collapse"
-											id="demo${pedidos.getId()}">
-											<table class="table ">
-												<thead>
-													<tr>
-														<th>Producto</th>
-														<th>Canitdad</th>
-														<th>Estado</th>
-														<th>Fecha de inicio estimada</th>
-														<th>Fecha de entrega estimada</th>
-														<th>Planificar</th>
-														<th>Reportar problema</th>
-													</tr>
-												</thead>
-												<tbody>
-													<c:forEach var="detallePedido"
-														items="${pedidos.getDetallePedido()}">
-														<tr>
-															<td>${detallePedido.getProducto().nombre}</td>
-															<td>${detallePedido.getCantidad()}</td>
-															<td>${detallePedido.getEstado().nombre}</td>
-															<td></td>
-															<td></td>
-															<td><a
-																href='/plansegui/fabrica/registrarPlanificacion/${detallePedido.getId()}'><span
-																	class="glyphicon glyphicon-calendar"></span></a></td>
-															<td>
-																<form name="regProblem" method="get"
-																	action="/plansegui/fabrica/registrarProblema/">
-																	<input type="hidden" name="id" value="${detallePedido.getId()}">
-																	<button type="submit" class="btn btn-warning">><span
-																	class="glyphicon glyphicon-bullhorn"></span></button>
-																</form>
-															</td>
-														</tr>
-													</c:forEach>
-												</tbody>
-											</table>
-										</div>
-									</td>
+									<c:forEach var="detallePedido"
+										items="${pedidos.getDetallePedido()}">
+										<tr>
+											<td>${detallePedido.getId()}</td>
+											<td>${pedidos.getEmpresa().getNombre()}</td>
+											<td>${detallePedido.getProducto().nombre}</td>
+											<td>${detallePedido.getCantidad()}</td>
+											<td><div class="bg-${detallePedido.getEstado().valorVisual}">${detallePedido.getEstado().nombre}</div></td>
+											<td>${pedidos.getFechaEntrega()}</td>
+											<td><a
+												href='/plansegui/fabrica/registrarPlanificacion/${detallePedido.getId()}'><span
+													class="glyphicon glyphicon-calendar"></span></a></td>
+											<td><a
+												href='/plansegui/fabrica/registrarProblema/${detallePedido.getId()}'><span
+													class="glyphicon glyphicon-bullhorn"></span></a></td>
+										</tr>
+									</c:forEach>
 								</tr>
 							</c:forEach>
 						</tbody>

@@ -32,7 +32,7 @@ public class ReservaMateriaPrima {
 	
 	
 	@Column(name = "re_cantidad")
-	private int camtidad;
+	private int cantidad;
 	
 	@Column(name = "re_fecha_ingreso")
 	private Date fechaIngreso;
@@ -67,12 +67,12 @@ public class ReservaMateriaPrima {
 		this.materiaPrima = materiaPrima;
 	}
 
-	public int getCamtidad() {
-		return camtidad;
+	public int getCantidad() {
+		return cantidad;
 	}
 
-	public void setCamtidad(int camtidad) {
-		this.camtidad = camtidad;
+	public void setCantidad(int cantidad) {
+		this.cantidad = cantidad;
 	}
 	
 	@Override

@@ -7,4 +7,5 @@ import plansegui.hibernate.entities.Inventario;
 public interface InventarioDao {
 	  public List<Inventario> getInventario();
 	  public void guardarInventario(Inventario inventario);
+	  public List<Inventario> getInventarioPorMateriaPrima(Long idProduct);
 }

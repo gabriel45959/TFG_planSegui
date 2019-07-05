@@ -9,6 +9,7 @@ import javax.persistence.criteria.Root;
 
 import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
+import org.hibernate.NonUniqueObjectException;
 import org.hibernate.Session;
 import org.hibernate.SessionFactory;
 import org.hibernate.Transaction;
@@ -39,7 +40,9 @@ public class DetallePedidoDaoImpl implements DetallePedidoDao {
 		cq.select(root);
 
 		Query query = session.createQuery(cq);
-
+		session.flush();
+		session.clear();
+		
 		return query.getResultList();
 	}
 
@@ -79,14 +82,21 @@ public class DetallePedidoDaoImpl implements DetallePedidoDao {
 		Transaction transaction = null;
 		try {
 			session = sessionFactory.getCurrentSession();
+			
+			if(!session.isOpen()){
+				session=sessionFactory.openSession();
+			}
+			
+			
 			transaction = session.getTransaction();
 			
-						
+									
 			if(!transaction.isActive()) transaction.begin();
 
+
 			session.saveOrUpdate(detallePedido);
-
-
+			
+			
 		} catch (Exception e) {
 			if (transaction != null) {
 				transaction.rollback();

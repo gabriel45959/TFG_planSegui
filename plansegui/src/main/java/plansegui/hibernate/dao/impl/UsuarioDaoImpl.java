@@ -44,7 +44,6 @@ public class UsuarioDaoImpl implements UsuarioDao{
 		
 		session.saveOrUpdate(usuario);
 		session.clear();
-		session.close();
 	}
 
 	@Override

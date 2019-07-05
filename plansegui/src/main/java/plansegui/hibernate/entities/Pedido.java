@@ -34,7 +34,7 @@ public class Pedido {
 	@Column(name = "pe_nro_factura")
 	private String nroFactura;
 	
-	@OneToMany( mappedBy="pedido", cascade = CascadeType.ALL,  orphanRemoval = true )
+	@OneToMany( mappedBy="pedido")
 	private List<DetallePedido> detallePedido = new ArrayList<>();
 	
 

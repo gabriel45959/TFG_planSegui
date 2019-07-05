@@ -22,6 +22,9 @@ public class EstadoPedido {
 
 	@Column(name = "es_descripcion")
 	private String descipcion;
+	
+	@Column(name = "es_valor_visual")
+	private String valorVisual;
 
 
 	public Long getId() {
@@ -51,6 +54,16 @@ public class EstadoPedido {
 
 	public void setDescipcion(String descipcion) {
 		this.descipcion = descipcion;
+	}
+
+
+	public String getValorVisual() {
+		return valorVisual;
+	}
+
+
+	public void setValorVisual(String valorVisual) {
+		this.valorVisual = valorVisual;
 	}
 	
 	

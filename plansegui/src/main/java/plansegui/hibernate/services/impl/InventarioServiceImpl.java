@@ -28,5 +28,10 @@ public class InventarioServiceImpl implements InventarioService {
 		inventarioDao.guardarInventario(inventario);
 
 	}
+	@Override
+	@Transactional
+	public List<Inventario> getInventarioPorMateriaPrima(Long idProduct){
+		return inventarioDao.getInventarioPorMateriaPrima(idProduct);
+	}
 
 }

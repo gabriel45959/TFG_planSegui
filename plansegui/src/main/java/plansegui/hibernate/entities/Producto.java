@@ -23,10 +23,10 @@ public class Producto {
 	@Column(name = "pr_nombre")
 	private String nombre;
 
-	@OneToMany(mappedBy = "producto", cascade = CascadeType.ALL, orphanRemoval = true)
+	@OneToMany(mappedBy = "producto", orphanRemoval = true)
 	private List<Ingrediente> ingredientes;
 
-	@OneToMany(mappedBy = "producto", cascade = CascadeType.ALL, orphanRemoval = true)
+	@OneToMany(mappedBy = "producto", orphanRemoval = true)
 	private List<Maquinaria> maquinaria;
 
 	public Long getId() {

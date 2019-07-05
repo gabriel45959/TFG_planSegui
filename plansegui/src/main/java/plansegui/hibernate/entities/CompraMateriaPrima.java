@@ -94,4 +94,17 @@ public class CompraMateriaPrima {
 		this.fechaLlegada = fechaLlegada;
 	}
 
+	public List<DetalleCompraMateriaPrima> getDetalleCompraMateriaPrima() {
+		return detalleCompraMateriaPrima;
+	}
+
+	public void setDetalleCompraMateriaPrima(
+			List<DetalleCompraMateriaPrima> detalleCompraMateriaPrima) {
+		this.detalleCompraMateriaPrima = detalleCompraMateriaPrima;
+	}
+
+	public void setId(Long id) {
+		this.id = id;
+	}
+
 }

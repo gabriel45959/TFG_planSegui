@@ -21,16 +21,16 @@ public class Ingrediente {
 	@Column(name = "in_id")
 	private Long id;
 	
-	@OneToOne(cascade = CascadeType.ALL)
+	@OneToOne()
     @JoinColumn(name = "in_producto", referencedColumnName = "pr_id")
 	private Producto producto;
 	
-	@OneToOne(cascade = CascadeType.ALL)
+	@OneToOne()
 	@JoinColumn(name = "in_materia_prima", referencedColumnName = "ma_id")
 	private MateriaPrima materiaPrima;
 	
 	@Column(name = "in_porcentaje")
-	private BigDecimal porcentaje;
+	private int porcentaje;
 	
 
 	public Long getId() {
@@ -57,11 +57,11 @@ public class Ingrediente {
 		this.materiaPrima = materiaPrima;
 	}
 
-	public BigDecimal getPorcentaje() {
+	public int getPorcentaje() {
 		return porcentaje;
 	}
 
-	public void setPorcentaje(BigDecimal porcentaje) {
+	public void setPorcentaje(int porcentaje) {
 		this.porcentaje = porcentaje;
 	}
 	

@@ -46,4 +46,7 @@ public class IngredienteDaoImpl implements IngredienteDao {
 		session.clear();
 	}
 
+	
+	
+	
 }

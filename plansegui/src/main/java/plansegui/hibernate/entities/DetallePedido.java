@@ -24,7 +24,7 @@ public class DetallePedido {
 	@Column(name = "de_id", unique = true)
 	private Long id;
 
-	@OneToOne(cascade = CascadeType.ALL)
+	@OneToOne()
 	@JoinColumn(name = "de_producto", referencedColumnName = "pr_id")
 	private Producto producto;
 
@@ -35,20 +35,20 @@ public class DetallePedido {
 	@JoinColumn(name = "de_pedido")
 	private Pedido pedido;
 
-	@OneToOne(cascade =  CascadeType.ALL)
+	@OneToOne()
 	@JoinColumn(name = "de_estado", referencedColumnName = "es_id")
 	private EstadoPedido estado;
 
-	@OneToMany(mappedBy = "detallePedido", cascade = CascadeType.ALL, orphanRemoval = true)
+	@OneToMany(mappedBy = "detallePedido", orphanRemoval = true)
 	private List<Planificacion> planificacion;
 
-	@OneToMany(mappedBy = "detallePedido", cascade = CascadeType.ALL, orphanRemoval = true)
+	@OneToMany(mappedBy = "detallePedido", orphanRemoval = true)
 	private List<CompraMateriaPrima> compraMateriaPrima;
 
-	@OneToMany(mappedBy = "detallePedido", cascade = CascadeType.ALL, orphanRemoval = true)
+	@OneToMany(mappedBy = "detallePedido", orphanRemoval = true)
 	private List<ReservaMateriaPrima> reservaMateriaPrima;
 	
-	@OneToMany(mappedBy = "detallePedido", cascade = CascadeType.ALL, orphanRemoval = true)
+	@OneToMany(mappedBy = "detallePedido", orphanRemoval = true)
 	private List<ProblemaReportado> problemaReportado;
 	
 

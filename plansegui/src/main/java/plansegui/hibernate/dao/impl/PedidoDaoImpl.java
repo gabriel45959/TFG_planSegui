@@ -38,6 +38,9 @@ public class PedidoDaoImpl implements PedidoDao {
 		
 		Query query = session.createQuery(cq);
 		
+		session.flush();
+		session.clear();
+		
 		return query.getResultList();
 	}
 
@@ -45,7 +48,10 @@ public class PedidoDaoImpl implements PedidoDao {
 	public void guardarPedido(Pedido pedido) {
 		Session session = sessionFactory.getCurrentSession();
 		
+		
+		
 		session.saveOrUpdate(pedido);
+		session.flush();
 		session.clear();
 		
 	}

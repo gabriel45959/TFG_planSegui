@@ -9,6 +9,7 @@ import javax.persistence.criteria.Root;
 
 import org.hibernate.Session;
 import org.hibernate.SessionFactory;
+import org.hibernate.Transaction;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Repository;
 
@@ -40,11 +41,35 @@ public class CompraMateriaPrimaDaoImpl implements CompraMateriaPrimaDao {
 
 	@Override
 	public void guardarCompraMateriaPrima(CompraMateriaPrima compraMateriaPrima) {
-		Session session = sessionFactory.getCurrentSession();
-
-		session.saveOrUpdate(compraMateriaPrima);
 		
-		session.clear();
+		Session session = null;
+		Transaction transaction = null;
+		try {
+			session = sessionFactory.getCurrentSession();
+			
+			if(!session.isOpen()){
+				session=sessionFactory.openSession();
+			}
+			
+			transaction = session.getTransaction();
+			
+						
+			if(!transaction.isActive()) transaction.begin();
+
+			session.saveOrUpdate(compraMateriaPrima);
+			
+			session.clear();
+			compraMateriaPrima=null;
+
+		} catch (Exception e) {
+			if (transaction != null) {
+				transaction.rollback();
+			}
+			e.printStackTrace();
+		
+		}
+
+	
 	}
 
 }

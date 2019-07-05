@@ -36,7 +36,7 @@ public class ProblemaReportado {
 	private String observaciones;
 	
 	@NotNull
-	@OneToOne(cascade = CascadeType.ALL)
+	@OneToOne()
 	@JoinColumn(name = "pr_tipo_problema", referencedColumnName = "id")
 	private TipoProblema tipoProblema;
 	

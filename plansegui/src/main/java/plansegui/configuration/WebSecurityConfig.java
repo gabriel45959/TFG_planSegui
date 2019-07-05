@@ -44,7 +44,9 @@ public class WebSecurityConfig extends WebSecurityConfigurerAdapter {
 		  	.antMatchers("/login").anonymous()
 		  	.antMatchers("/venta/**").hasAnyAuthority("VENTA","ADMIN")
 			.antMatchers("/admin/**").hasAnyAuthority("ADMIN")
-			.antMatchers("/fabrica/**").hasAnyAuthority("FABRICA")
+			.antMatchers("/fabrica/**").hasAnyAuthority("FABRICA","ADMIN")
+			.antMatchers("/compra/**").hasAnyAuthority("COMPRA","ADMIN")
+			.antMatchers("/deposito/**").hasAnyAuthority("DEPOSITO","ADMIN")
 			.and().formLogin().loginPage("/login").loginProcessingUrl("/j_spring_security_check").usernameParameter("username").passwordParameter("password").successHandler(new SimpleAuthenticationSuccessHandler())
 			.and().exceptionHandling().accessDeniedPage("/403")
 			.and().logout().logoutUrl("/j_spring_security_logout").logoutSuccessUrl("/login").clearAuthentication(true);

@@ -3,7 +3,6 @@ package plansegui.hibernate.entities;
 
 import java.sql.Date;
 
-import javax.persistence.CascadeType;
 import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
@@ -13,16 +12,16 @@ import javax.persistence.JoinColumn;
 import javax.persistence.OneToOne;
 import javax.persistence.Table;
 
-@Entity
+@Entity(name = "Inventario")
 @Table(name = "inventario", schema="proceso_fabricacion_tfg")
 public class Inventario {
 
 	@Id
 	@GeneratedValue(strategy=GenerationType.IDENTITY)
 	@Column(name = "in_id")
-	private long id;
+	private Long id;
 	
-	@OneToOne(cascade = CascadeType.ALL)
+	@OneToOne()
     @JoinColumn(name = "in_id_materia_prima", referencedColumnName = "ma_id")
 	private MateriaPrima materiaPrima;
 	
@@ -38,12 +37,20 @@ public class Inventario {
 	@Column(name = "in_nro_factura")
 	private String nroFactura;
 
-	public long getId() {
+	public Long getId() {
 		return id;
 	}
 
-
-	public void setId(long id) {
+	@Override
+	public boolean equals(Object o) {
+		if (this == o)
+			return true;
+		if (!(o instanceof Inventario))
+			return false;
+		return id != null && id.equals(((Inventario) o).getId());
+	}
+	
+	public void setId(Long id) {
 		this.id = id;
 	}
 
