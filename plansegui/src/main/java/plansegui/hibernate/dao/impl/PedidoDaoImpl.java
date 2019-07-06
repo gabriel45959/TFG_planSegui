@@ -4,6 +4,7 @@ import java.util.List;
 
 
 
+
 import javax.persistence.Query;
 import javax.persistence.criteria.CriteriaBuilder;
 import javax.persistence.criteria.CriteriaQuery;
@@ -15,6 +16,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Repository;
 
 import plansegui.hibernate.dao.PedidoDao;
+import plansegui.hibernate.entities.DetallePedido;
 import plansegui.hibernate.entities.Pedido;
 
 @Repository
@@ -43,6 +45,8 @@ public class PedidoDaoImpl implements PedidoDao {
 		
 		return query.getResultList();
 	}
+	
+	
 
 	@Override
 	public void guardarPedido(Pedido pedido) {

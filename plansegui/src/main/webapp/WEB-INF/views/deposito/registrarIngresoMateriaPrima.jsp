@@ -69,6 +69,75 @@
 		</ul>
 	</nav>
 	<!-- CONTENIDOS -->
-	
+	<!-- CONTENIDOS -->
+	<div class="continer">
+		<div class="col-md-offset-1 col-md-10">
+			<h2>Registrar ingreso materia prima</h2>
+
+			<c:if test="${not empty msg}">
+				<div class="alert alert-${css} alert-dismissible" role="alert">
+					<button type="button" class="close" data-dismiss="alert"
+						aria-label="Close">
+						<span aria-hidden="true">&times;</span>
+					</button>
+					<strong>${msg}</strong>
+				</div>
+			</c:if>
+			<hr />
+			<div class="panel panel-primary">
+				<div class="panel-heading"></div>
+
+				<div class="panel-body">
+
+					<table id="ListaPedidos" class="table table-striped table-hover"
+						style="border-collapse: collapse;">
+
+						<thead>
+							<tr>
+								<th>
+									<div class="input-group " style="width: 160px">
+										<label>Nro. de Pedido</label> <input type="text" id="busqueda"
+											onkeyup="funcionBuscar()" placeholder="Buscar pedido...">
+									</div>
+								</th>
+								<th>Cliente</th>
+								<th>Materia prima</th>
+								<th>Cantidad</th>
+								<th>Estado del pedido</th>
+								<th>Número de factura</th>
+								<th>Fecha de ingreso</th>
+								<th>Ingreso materia prima</th>
+							</tr>
+						</thead>
+
+						<tbody>
+							<tr data-toggle="collapse" class="accordion-toggle">
+
+								<c:forEach var="detallePedido" items="${ListDetallePedidos}">
+									<tr>
+										<td>${detallePedido.getId()}</td>
+										<td>${detallePedido.getPedido().getEmpresa().getNombre()}</td>
+										<td>${detallePedido.getCompraMateriaPrima()[0].getDetalleCompraMateriaPrima()[0].getMateriaPrima().nombre}</td>
+										<td>${detallePedido.getCompraMateriaPrima()[0].getDetalleCompraMateriaPrima()[0].cantidad}</td>
+										
+										<td><div
+												class="bg-${detallePedido.getEstado().valorVisual}">${detallePedido.getEstado().nombre}</div></td>
+										<td>${detallePedido.getCompraMateriaPrima()[0].nroFactura}</td>
+										<td><input id="fechaEntrega" type="date"
+												name="fechaEntrega" class="form-control" /></td>
+										
+										
+										<td><a class="btn btn-primary"
+											href='/plansegui/fabrica/registrarPlanificacion/${detallePedido.getId()}'>Guardar</a></td>
+									</tr>
+								</c:forEach>
+							</tr>
+						</tbody>
+					</table>
+				</div>
+
+			</div>
+		</div>
+	</div>
 </body>
 </html>

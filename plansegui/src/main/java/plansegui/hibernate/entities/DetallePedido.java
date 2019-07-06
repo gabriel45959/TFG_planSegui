@@ -15,7 +15,7 @@ import javax.persistence.OneToMany;
 import javax.persistence.OneToOne;
 import javax.persistence.Table;
 
-@Entity(name = "DetallePedido")
+@Entity(name = "detallePedido")
 @Table(name = "detalle_pedido", schema = "proceso_fabricacion_tfg")
 public class DetallePedido {
 

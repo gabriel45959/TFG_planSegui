@@ -7,6 +7,7 @@ import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
 import plansegui.hibernate.dao.PedidoDao;
+import plansegui.hibernate.entities.DetallePedido;
 import plansegui.hibernate.entities.Pedido;
 import plansegui.hibernate.services.PedidoService;
 

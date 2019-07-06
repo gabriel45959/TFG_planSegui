@@ -9,7 +9,6 @@ import javax.persistence.criteria.Root;
 
 import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
-import org.hibernate.NonUniqueObjectException;
 import org.hibernate.Session;
 import org.hibernate.SessionFactory;
 import org.hibernate.Transaction;
@@ -27,16 +26,16 @@ public class DetallePedidoDaoImpl implements DetallePedidoDao {
 	@Autowired
 	private SessionFactory sessionFactory;
 
+	
 	@Override
 	public List<DetallePedido> getDetallePedido() {
 		Session session = sessionFactory.getCurrentSession();
 		CriteriaBuilder criteriaBuilder = session.getCriteriaBuilder();
 
-		CriteriaQuery<DetallePedido> cq = criteriaBuilder
-				.createQuery(DetallePedido.class);
+		CriteriaQuery<DetallePedido> cq = criteriaBuilder.createQuery(DetallePedido.class);
 
 		Root<DetallePedido> root = cq.from(DetallePedido.class);
-
+		
 		cq.select(root);
 
 		Query query = session.createQuery(cq);
@@ -45,7 +44,7 @@ public class DetallePedidoDaoImpl implements DetallePedidoDao {
 		
 		return query.getResultList();
 	}
-
+	
 	@Override
 	public void guardarDetallePedido(DetallePedido detallePedido) {
 		Session session = sessionFactory.getCurrentSession();
@@ -106,5 +105,29 @@ public class DetallePedidoDaoImpl implements DetallePedidoDao {
 		}
 
 	}
+
+	@Override
+	public List<DetallePedido> getdetallePedidoPorEstado(int idEstado) {
+		
+		Session session = sessionFactory.getCurrentSession();
+		CriteriaBuilder criteriaBuilder = session.getCriteriaBuilder();
+
+		CriteriaQuery<DetallePedido> cq = criteriaBuilder.createQuery(DetallePedido.class);
+
+		Root<DetallePedido> root = cq.from(DetallePedido.class);
+		
+		
+		cq.select(root).where(criteriaBuilder.equal(root.get("estado"), idEstado));
+		
+		
+		Query query = session.createQuery(cq);
+		
+		
+		
+		return query.getResultList();
+	}
+	
+
+
 
 }

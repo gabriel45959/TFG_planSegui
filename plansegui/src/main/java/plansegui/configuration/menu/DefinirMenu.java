@@ -48,7 +48,7 @@ public class DefinirMenu {
 						+ "<a class=\"nav-link dropdown-toggle\" href=\"#\" id=\"navbardrop\" data-toggle=\"dropdown\">Compra</a>"
 
 						+ " <div class=\"dropdown-menu\">"
-						+ "<a class=\"dropdown-item\" href=\"/plansegui/compra/registrarCompra\">Compra</a>"
+						+ "<a class=\"dropdown-item\" href=\"/plansegui/compra/registrarCompra\">Registrar compra materia prima</a>"
 						+ "</div></div></li>";
 				continue;
 			case "VENTA":

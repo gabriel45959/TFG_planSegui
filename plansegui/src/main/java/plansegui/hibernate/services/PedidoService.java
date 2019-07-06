@@ -2,6 +2,7 @@ package plansegui.hibernate.services;
 
 import java.util.List;
 
+import plansegui.hibernate.entities.DetallePedido;
 import plansegui.hibernate.entities.Pedido;
 
 public interface PedidoService {

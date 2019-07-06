@@ -36,7 +36,7 @@
 			$(this).remove();
 		});
 	}, 2060);
-	function myFunction() {
+	function funcionBuscar() {
 		var input, filter, table, tr, td, i, txtValue;
 		input = document.getElementById("busqueda");
 		filter = input.value.toUpperCase();
@@ -116,10 +116,10 @@
 						<thead>
 							<tr>
 								<th>
-									<div class="input-group">
-										<label>Nro. de Pedido</label> <input type="text" id="busqueda"
-											onkeyup="myFunction()" placeholder="Buscar pedido...">
-									</div>
+										<div class="input-group" style="width: 150px">
+											<label>Nro. de Pedido</label> <input type="text" id="busqueda"
+												onkeyup="funcionBuscar()" placeholder="Buscar pedido...">
+										</div>
 								</th>
 								<th>Cliente</th>
 								<th>Producto</th>
@@ -128,13 +128,14 @@
 								<th>Fecha de entrega</th>
 								<th>Planificar</th>
 								<th>Registrar problema</th>
+								<th>Terminar Pedido</th>
 							</tr>
 						</thead>
 
 						<tbody>
 							<!-- loop para mostrar el usuario -->
 							<c:forEach var="pedidos" items="${ListPedidos}">
-								<tr data-toggle="collapse" data-target="#demo${pedidos.getId()}"
+								<tr data-toggle="collapse" 
 									class="accordion-toggle">
 
 									<c:forEach var="detallePedido"
@@ -152,6 +153,8 @@
 											<td><a
 												href='/plansegui/fabrica/registrarProblema/${detallePedido.getId()}'><span
 													class="glyphicon glyphicon-bullhorn"></span></a></td>
+											<td><a class="btn btn-info"
+												href='/plansegui/fabrica/registrarPlanificacion/${detallePedido.getId()}'>Finalizar</a></td>
 										</tr>
 									</c:forEach>
 								</tr>
