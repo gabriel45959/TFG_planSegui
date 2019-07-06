@@ -8,7 +8,7 @@ Sistema de planificación y seguimiento de productos alimenticios
 _Para realizar una copia en fora local hacer:_
                 
 + 1-Descargar [Eclipse](https://www.eclipse.org/downloads/packages/release/luna/sr2)</br>
-    + 1.a- Configurar git en eclipse, ver el instructivo [aquí](https://github.com/collab-uniba/socialcde4eclipse/wiki/How-to-import-a-GitHub-project-into-Eclipse)</br>
+    + 1.a- Configurar git en Eclipse, ver el instructivo [aquí](https://github.com/collab-uniba/socialcde4eclipse/wiki/How-to-import-a-GitHub-project-into-Eclipse)</br>
 + 2-Descargar [Tomcat 7 core](https://tomcat.apache.org/download-70.cgi)</br>
     + 2.a- Configurar un server en Eclipse, seguir el instructivo [aquí](http://aramis-tmf.blogspot.com/2014/06/configurar-apache-tomcat-7-y-eclipse.html)</br>
 + 3- Descargar [WampServer Version 3.1.0](http://www.wampserver.com/en/) según sistema operativo</br>
