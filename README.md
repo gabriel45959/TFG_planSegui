@@ -1,4 +1,4 @@
-# Trabajo Final de Graduación de Ingeniería en Sistemas de Información
+# Repositorio del Trabajo Final de Graduación de Ingeniería en Sistemas de Información
 
 # Titulo
 Sistema de planificación y seguimiento de productos alimenticios
