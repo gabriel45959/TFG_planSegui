@@ -125,23 +125,37 @@
 														class="bg-${detallePedidoPag.getEstado().valorVisual}">${detallePedidoPag.getEstado().nombre}</div></td>
 												<form:form method="post" modelAttribute="compraMateriaPrima"
 													action="/plansegui/compra/registrarCompra">
+													<td><c:choose>
+															<c:when
+																test="${detalleCompraMateriaPrimaPage.fechaLlegada != null}">
+																<form:input id="fechaLlegada" type="date"
+																	path="fechaLlegada" name="fechaLlegada"
+																	class="form-control"
+																	value="${detalleCompraMateriaPrimaPage.fechaLlegada}" />
+															</c:when>
+															<c:otherwise>
+																<form:input id="fechaLlegada" type="date"
+																	name="fechaLlegada" class="form-control"
+																	path="detalleCompraMateriaPrima[0].fechaLlegada" />
+															</c:otherwise>
+														</c:choose></td>
 
-													<td><form:input id="fechaLlegada" type="date"
-															name="fechaLlegada" path="detalleCompraMateriaPrima[0].fechaLlegada" disabled="true" /></td>
 													<td><form:input id="nroFactura" type="text"
-															class="form-control" path="detalleCompraMateriaPrima[0].nroFactura" value="${detalleCompraMateriaPrimaPage.nroFactura}"/> <form:errors
+															class="form-control"
+															path="detalleCompraMateriaPrima[0].nroFactura"
+															value="${detalleCompraMateriaPrimaPage.nroFactura}" /> <form:errors
 															path="nroFactura" cssClass="error" /></td>
-														
+
 													<form:hidden path="detalleCompraMateriaPrima[0].id"
-														value="${detalleCompraMateriaPrimaPage.id}" />	
-																
+														value="${detalleCompraMateriaPrimaPage.id}" />
+
 													<form:hidden path="detallePedido.id"
 														value="${detallePedidoPag.id}" />
-														
+
 													<td><button type="submit" class="btn btn-warning">Guardar</button></td>
 												</form:form>
 											</tr>
-											
+
 										</c:forEach>
 									</c:forEach>
 								</c:forEach>

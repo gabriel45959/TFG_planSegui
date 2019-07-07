@@ -78,7 +78,6 @@ public class CompraController {
 	public CompraMateriaPrima getPedido(){
 		CompraMateriaPrima compraMateriaPrima = new CompraMateriaPrima();
 		compraMateriaPrima.addDetalleCompraMateriaPrima(new DetalleCompraMateriaPrima());
-		compraMateriaPrima.getDetalleCompraMateriaPrima().get(0).setFechaLlegada(new Date(System.currentTimeMillis()));
 		compraMateriaPrima.setDetallePedido(new DetallePedido());
 		return compraMateriaPrima;
 	}
@@ -98,7 +97,7 @@ public class CompraController {
 		int auxCuentaCompras=0;
 		List<DetallePedido> detallePedido=detallePedidoService.getdetallePedidoPorEstado(2);
 		
-		log.info("CompraController -------------------------------------------------------------- guardarCompra nroFactura: "+compraMateriaPrima.getFechaLlegada()+" idDetallePedido: "+compraMateriaPrima.getDetallePedido().getId()+" idDetalleCompra: "+compraMateriaPrima.getDetalleCompraMateriaPrima().get(0).getId());
+		log.info("CompraController -------------------------------------------------------------- guardarCompra nroFactura: "+compraMateriaPrima.getDetalleCompraMateriaPrima().get(0).getFechaLlegada()+" idDetallePedido: "+compraMateriaPrima.getDetallePedido().getId()+" idDetalleCompra: "+compraMateriaPrima.getDetalleCompraMateriaPrima().get(0).getId());
 		
 		
 		
