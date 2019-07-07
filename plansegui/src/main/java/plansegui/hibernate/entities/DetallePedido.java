@@ -2,7 +2,6 @@ package plansegui.hibernate.entities;
 
 import java.util.List;
 
-import javax.persistence.CascadeType;
 import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.FetchType;
@@ -14,6 +13,8 @@ import javax.persistence.ManyToOne;
 import javax.persistence.OneToMany;
 import javax.persistence.OneToOne;
 import javax.persistence.Table;
+
+import org.hibernate.annotations.OrderBy;
 
 @Entity(name = "detallePedido")
 @Table(name = "detalle_pedido", schema = "proceso_fabricacion_tfg")
@@ -28,6 +29,7 @@ public class DetallePedido {
 	@JoinColumn(name = "de_producto", referencedColumnName = "pr_id")
 	private Producto producto;
 
+	
 	@Column(name = "de_cantidad")
 	private int cantidad;
 
@@ -35,8 +37,10 @@ public class DetallePedido {
 	@JoinColumn(name = "de_pedido")
 	private Pedido pedido;
 
+	
 	@OneToOne()
 	@JoinColumn(name = "de_estado", referencedColumnName = "es_id")
+	
 	private EstadoPedido estado;
 
 	@OneToMany(mappedBy = "detallePedido", orphanRemoval = true)

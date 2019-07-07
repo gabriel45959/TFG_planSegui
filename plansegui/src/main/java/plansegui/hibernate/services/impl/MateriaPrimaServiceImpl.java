@@ -30,4 +30,10 @@ public class MateriaPrimaServiceImpl implements MateriaPrimaService {
 
 	}
 
+	@Override
+	@Transactional
+	public MateriaPrima getMateriaPrima(Long id) {
+		return materiaPrimaDao.getMateriaPrima(id);
+	}
+
 }

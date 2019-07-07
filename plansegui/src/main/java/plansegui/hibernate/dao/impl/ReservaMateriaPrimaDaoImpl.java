@@ -13,6 +13,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Repository;
 
 import plansegui.hibernate.dao.ReservaMateriaPrimaDao;
+import plansegui.hibernate.entities.DetallePedido;
 import plansegui.hibernate.entities.ReservaMateriaPrima;
 
 @Repository
@@ -44,6 +45,12 @@ Session session = sessionFactory.getCurrentSession();
 		
 		session.saveOrUpdate(reservaMateriaPrima);
 		session.clear();
+	}
+
+	@Override
+	public ReservaMateriaPrima getReservaMateriaPrima(Long id) {
+		
+		return sessionFactory.getCurrentSession().get(ReservaMateriaPrima.class, id);
 	}
 
 }

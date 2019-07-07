@@ -16,6 +16,8 @@ import javax.persistence.OneToOne;
 import javax.persistence.Table;
 import javax.validation.constraints.NotNull;
 
+import org.hibernate.annotations.OrderBy;
+
 
 @Entity(name = "Pedido")
 @Table(name = "Pedido", schema="proceso_fabricacion_tfg")
@@ -34,7 +36,8 @@ public class Pedido {
 	@Column(name = "pe_nro_factura")
 	private String nroFactura;
 	
-	@OneToMany( mappedBy="pedido")
+	@OrderBy ( clause="de_id desc")
+	@OneToMany( mappedBy="pedido", cascade = CascadeType.ALL)
 	private List<DetallePedido> detallePedido = new ArrayList<>();
 	
 

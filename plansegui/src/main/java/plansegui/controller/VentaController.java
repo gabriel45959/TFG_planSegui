@@ -23,6 +23,7 @@ import plansegui.hibernate.entities.Empresa;
 import plansegui.hibernate.entities.EstadoPedido;
 import plansegui.hibernate.entities.Pedido;
 import plansegui.hibernate.entities.Producto;
+import plansegui.hibernate.services.DetallePedidoService;
 import plansegui.hibernate.services.EmpresaService;
 import plansegui.hibernate.services.EstadoPedidoService;
 import plansegui.hibernate.services.PedidoService;
@@ -50,6 +51,9 @@ public class VentaController {
 	private PedidoService pedidoService;
 	
 	@Autowired
+	private DetallePedidoService detallePedidoService;
+	
+	@Autowired
 	private EstadoPedidoService estadoService;
 	
 	@Autowired
@@ -66,7 +70,7 @@ public class VentaController {
 	@RequestMapping(value = { "/registrarPedido" }, method = RequestMethod.GET)
 	public ModelAndView registrarPedido(){
 		
-		log.info("VentaController--------------------------------------------------------------------------registrarPedido");
+		log.info("VentaController--------------------------------------------------------------------------registrarPedido"+" listaProducto "+productoService.getProducto().size());
 		
 		ModelAndView model = new ModelAndView();
 		
@@ -106,6 +110,9 @@ public class VentaController {
 
 			pedidoService.guardarPedido(completarDatosDetallePedido(pedido));
 			
+			
+			
+			
 			redirectAttributes.addFlashAttribute("css", "success");
 			redirectAttributes.addFlashAttribute("msg", "El pedido fue creado!!");
 			
@@ -141,7 +148,6 @@ public class VentaController {
 			det.setPedido(pedido);
 			det.setProducto(productoService.getProducto(det.getProducto().getId()));
 			det.setEstado(estadoPedido);
-			
 		}
 
 		

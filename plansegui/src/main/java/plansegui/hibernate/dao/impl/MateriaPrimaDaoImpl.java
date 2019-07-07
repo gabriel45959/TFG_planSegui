@@ -46,4 +46,9 @@ public class MateriaPrimaDaoImpl implements MateriaPrimaDao {
 		session.clear();
 	}
 
+	@Override
+	public MateriaPrima getMateriaPrima(Long id) {
+		return sessionFactory.getCurrentSession().get(MateriaPrima.class, id);
+	}
+
 }

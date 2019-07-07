@@ -55,8 +55,8 @@ public class ReservaMateriaPrima {
 		return detallePedido;
 	}
 
-	public void setDetallePedido(DetallePedido detallepedido) {
-		this.detallePedido = detallepedido;
+	public void setDetallePedido(DetallePedido detallePedido) {
+		this.detallePedido = detallePedido;
 	}
 
 	public MateriaPrima getMateriaPrima() {
@@ -75,6 +75,36 @@ public class ReservaMateriaPrima {
 		this.cantidad = cantidad;
 	}
 	
+	
+	
+	public Date getFechaIngreso() {
+		return fechaIngreso;
+	}
+
+	public void setFechaIngreso(Date fechaIngreso) {
+		this.fechaIngreso = fechaIngreso;
+	}
+
+	public Date getFechaEgreso() {
+		return fechaEgreso;
+	}
+
+	public void setFechaEgreso(Date fechaEgreso) {
+		this.fechaEgreso = fechaEgreso;
+	}
+
+	public String getNroFactura() {
+		return nroFactura;
+	}
+
+	public void setNroFactura(String nroFactura) {
+		this.nroFactura = nroFactura;
+	}
+
+	public void setId(Long id) {
+		this.id = id;
+	}
+
 	@Override
 	public boolean equals(Object o) {
 		if (this == o)

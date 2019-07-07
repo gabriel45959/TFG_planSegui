@@ -100,7 +100,7 @@
 								</th>
 								<th>Cliente</th>
 								<th>Materia prima</th>
-								<th>Cantidad</th>
+								<th>Cantidad Solitiada</th>
 								<th>Estado del pedido</th>
 								<th>Número de factura</th>
 								<th>Fecha de ingreso</th>
@@ -111,25 +111,70 @@
 						<tbody>
 							<tr data-toggle="collapse" class="accordion-toggle">
 
-								<c:forEach var="detallePedido" items="${ListDetallePedidos}">
-									<c:forEach var="compraMateriaPrima" items="${detallePedido.getCompraMateriaPrima()}">
-									<c:forEach var="detalleCompraMateriaPrima" items="${compraMateriaPrima.getDetalleCompraMateriaPrima()}">
-										<tr>
-											<td>${detallePedido.getId()}</td>
-											<td>${detallePedido.getPedido().getEmpresa().getNombre()}</td>
-											<td>${detalleCompraMateriaPrima.getMateriaPrima().nombre}</td>
-											<td>${detalleCompraMateriaPrima.cantidad}</td>
+								<c:forEach var="detallePedidoPagina"
+									items="${ListDetallePedidos}">
+									<c:forEach var="compraMateriaPrima"
+										items="${detallePedidoPagina.getCompraMateriaPrima()}">
+										<c:forEach var="detalleCompraMateriaPrima"
+											items="${compraMateriaPrima.getDetalleCompraMateriaPrima()}">
 
-											<td><div
-													class="bg-${detallePedido.getEstado().valorVisual}">${detallePedido.getEstado().nombre}</div></td>
-											<td>${compraMateriaPrima.nroFactura}</td>
-											<td><input id="fechaEntrega" type="date"
-												name="fechaEntrega" class="form-control" /></td>
+											<tr>
+												<td>${detallePedidoPagina.getId()}</td>
+												<td>${detallePedidoPagina.getPedido().getEmpresa().getNombre()}</td>
+												<td>${detalleCompraMateriaPrima.getMateriaPrima().nombre}</td>
+												<td>${detalleCompraMateriaPrima.cantidad}</td>
 
+												<td><div
+														class="bg-${detallePedidoPagina.getEstado().valorVisual}">${detallePedidoPagina.getEstado().nombre}</div>
+												</td>
+												<td>${detalleCompraMateriaPrima.nroFactura}</td>
+												
+												<form:form method="post"
+													modelAttribute="reservaMateriaPrima"
+													action="/plansegui/deposito/registrarIngresoMateriaPrima">
+													
+													<td>
+													<c:choose>
+													    <c:when	test="${detallePedidoPagina.getReservaMateriaPrima().size()>0}">
+													<c:forEach var="reservaMateriaPrima"
+														items="${detallePedidoPagina.getReservaMateriaPrima()}">
+														<c:choose>
+																<c:when
+																	test="${detalleCompraMateriaPrima.getMateriaPrima().id == reservaMateriaPrima.materiaPrima.id}">
+																	<form:input id="fechaIngreso" type="date"
+																		path="fechaIngreso" name="fechaIngreso"
+																		class="form-control"
+																		value="${reservaMateriaPrima.fechaIngreso}" />
+																</c:when>
+																<c:otherwise>
+																	<form:input id="fechaIngreso" type="date"
+																		path="fechaIngreso" name="fechaIngreso"
+																		class="form-control"
+																		value="" />
+																</c:otherwise>
+															</c:choose>
+													</c:forEach>
+													</c:when>
+													<c:otherwise>
+																	<form:input id="fechaIngreso" type="date"
+																		path="fechaIngreso" name="fechaIngreso"
+																		class="form-control"
+																		value="" />
+																</c:otherwise>
+													</c:choose>
+													</td>
+													
+													<form:hidden path="detallePedido.id"
+														value="${detallePedidoPagina.id}" />
+													<form:hidden path="materiaPrima.id"
+														value="${detalleCompraMateriaPrima.getMateriaPrima().id}" />
+													<form:hidden path="cantidad"
+														value="${detalleCompraMateriaPrima.cantidad}" />	
+													<td><button type="submit" class="btn btn-warning">Guardar</button></td>
 
-											<td><a class="btn btn-primary"
-												href='/plansegui/fabrica/registrarPlanificacion/${detallePedido.getId()}'>Guardar</a></td>
-										</tr>
+												</form:form>
+											</tr>
+
 										</c:forEach>
 									</c:forEach>
 								</c:forEach>

@@ -5,13 +5,20 @@ import java.util.List;
 
 
 
+
+
+
 import javax.persistence.Query;
 import javax.persistence.criteria.CriteriaBuilder;
 import javax.persistence.criteria.CriteriaQuery;
+import javax.persistence.criteria.Order;
 import javax.persistence.criteria.Root;
 
+import org.apache.commons.logging.Log;
+import org.apache.commons.logging.LogFactory;
 import org.hibernate.Session;
 import org.hibernate.SessionFactory;
+import org.hibernate.Transaction;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Repository;
 
@@ -25,7 +32,7 @@ public class PedidoDaoImpl implements PedidoDao {
 	@Autowired
 	private SessionFactory sessionFactory;
 	
-	
+	private Log log = LogFactory.getLog(PedidoDaoImpl.class);
 	
 	@Override
 	public List<Pedido> getPedido() {
@@ -39,9 +46,7 @@ public class PedidoDaoImpl implements PedidoDao {
 		cq.select(root);
 		
 		Query query = session.createQuery(cq);
-		
-		session.flush();
-		session.clear();
+
 		
 		return query.getResultList();
 	}
@@ -50,13 +55,34 @@ public class PedidoDaoImpl implements PedidoDao {
 
 	@Override
 	public void guardarPedido(Pedido pedido) {
-		Session session = sessionFactory.getCurrentSession();
+		log.info(" PedidoDaoImpl---------------------------------------------------------------------------------------guardarPedido ");
+
+		Session session = null;
+		Transaction transaction = null;
+		try {
+			session = sessionFactory.getCurrentSession();
+			
+			if(!session.isOpen()){
+				session=sessionFactory.openSession();
+			}
+			
+			
+			transaction = session.getTransaction();
+			
+									
+			if(!transaction.isActive()) transaction.begin();
+
+
+			session.saveOrUpdate(pedido);
+			
+			
+		} catch (Exception e) {
+			if (transaction != null) {
+				transaction.rollback();
+			}
+			e.printStackTrace();
 		
-		
-		
-		session.saveOrUpdate(pedido);
-		session.flush();
-		session.clear();
+		}
 		
 	}
 

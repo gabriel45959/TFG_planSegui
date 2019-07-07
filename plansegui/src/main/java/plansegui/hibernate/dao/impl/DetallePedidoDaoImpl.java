@@ -36,7 +36,7 @@ public class DetallePedidoDaoImpl implements DetallePedidoDao {
 
 		Root<DetallePedido> root = cq.from(DetallePedido.class);
 		
-		cq.select(root);
+		cq.select(root).orderBy(criteriaBuilder.desc(root.get("de_estado")));
 
 		Query query = session.createQuery(cq);
 		session.flush();

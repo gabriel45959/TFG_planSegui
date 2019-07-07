@@ -16,11 +16,11 @@ public class ReservaMateriaPrimaServiceImpl implements
 
 	@Autowired
 	private ReservaMateriaPrimaDao reservaMateriaPrimaDao;
-	
+
 	@Override
 	@Transactional
 	public List<ReservaMateriaPrima> getReservaMateriaPrima() {
-		
+
 		return reservaMateriaPrimaDao.getReservaMateriaPrima();
 	}
 
@@ -30,6 +30,13 @@ public class ReservaMateriaPrimaServiceImpl implements
 			ReservaMateriaPrima reservaMateriaPrima) {
 		reservaMateriaPrimaDao.guardarReservaMateriaPrima(reservaMateriaPrima);
 
+	}
+
+	@Override
+	@Transactional
+	public ReservaMateriaPrima getReservaMateriaPrima(Long id) {
+
+		return reservaMateriaPrimaDao.getReservaMateriaPrima(id);
 	}
 
 }
