@@ -47,7 +47,7 @@ public class DepositoController {
 		
 		log.info("DepositoController -------------------------------------------------------------- registrarCompra "+detallePedido.size());
 		model.addObject("ListDetallePedidos", detallePedido);
-		model.addObject("MenuOpcionExtras",DefinirMenu.setItemMenu(usuarioService.getUsuario(DefinirMenu.USUARIO_CONECTADO).getRole()));
+		model.addObject("MenuOpcionExtras",DefinirMenu.setItemMenu(usuarioService.getUsuario(DefinirMenu.USUARIO_CONECTADO).getRole(),"DEPOSITO"));
 		model.addObject("NombrePantalla","Registrar ingreso materia prima");
 		model.setViewName("/deposito/registrarIngresoMateriaPrima");
 		

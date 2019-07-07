@@ -53,7 +53,8 @@ public class AdminController {
 		log.info("AdminController -------------------------------------------------------------- "
 				+ usuarios.size()+"-------------- role size: "+usuarios.get(0).getRole().size());
 		model.addObject("usuarios", usuarios);
-		model.addObject("MenuOpcionExtras",DefinirMenu.setItemMenu(usuarioService.getUsuario(DefinirMenu.USUARIO_CONECTADO).getRole()));
+		model.addObject("menuActivo","active");
+		model.addObject("MenuOpcionExtras",DefinirMenu.setItemMenu(usuarioService.getUsuario(DefinirMenu.USUARIO_CONECTADO).getRole(),"ADMIN"));
 		model.addObject("NombrePantalla","Listar usuarios");
 		model.setViewName("/admin/listarUsuarios");
 		
@@ -77,7 +78,7 @@ public class AdminController {
 				+ usuarios.size()+"-------------- role size: "+usuarios.get(0).getRole().size());
 		model.addObject("NombrePantalla","Administrar Usuarios");
 		model.addObject("usuarios", usuarios);
-		model.addObject("MenuOpcionExtras",DefinirMenu.setItemMenu(usuarioService.getUsuario(DefinirMenu.USUARIO_CONECTADO).getRole()));
+		model.addObject("MenuOpcionExtras",DefinirMenu.setItemMenu(usuarioService.getUsuario(DefinirMenu.USUARIO_CONECTADO).getRole(),"ADMIN"));
 		
 		model.setViewName("/admin/crearUsuario");
 		
@@ -110,7 +111,7 @@ public class AdminController {
 			model1.addAttribute("modalopen", "false");
 			model1.addAttribute("css", "warning");
 			model1.addAttribute("msg", "Faltan ingresar datos!!");
-			model1.addAttribute("MenuOpcionExtras",DefinirMenu.setItemMenu(usuarioService.getUsuario(DefinirMenu.USUARIO_CONECTADO).getRole()));
+			model1.addAttribute("MenuOpcionExtras",DefinirMenu.setItemMenu(usuarioService.getUsuario(DefinirMenu.USUARIO_CONECTADO).getRole(),"ADMIN"));
 		}
 		
 		

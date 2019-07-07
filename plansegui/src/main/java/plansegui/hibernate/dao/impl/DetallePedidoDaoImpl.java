@@ -64,19 +64,6 @@ public class DetallePedidoDaoImpl implements DetallePedidoDao {
 		log.info(" DetallePedidoDaoImpl---------------------------------------------------------------------------------------actualizarDetallePedido "
 				+ detallePedido.getEstado().getNombre());
 
-		/*
-		 * Session session = sessionFactory.getCurrentSession();
-		 * 
-		 * DetallePedido detPedAux= session.load(DetallePedido.class,
-		 * detallePedido.getId());
-		 * 
-		 * detPedAux.setEstado(detallePedido.getEstado());
-		 * 
-		 * DetallePedido merDetPed= (DetallePedido) session.merge(detPedAux);
-		 * 
-		 * session.update(merDetPed); session.clear();
-		 */
-
 		Session session = null;
 		Transaction transaction = null;
 		try {

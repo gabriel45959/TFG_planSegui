@@ -73,8 +73,9 @@
 			value="${_csrf.token}" />
 	</form>
 
-	<nav class="navbar navbar-expand-sm bg-secondary navbar-dark">
+	<nav class="navbar navbar-expand-sm bg-secondary navbar-dark nav-pills">
 		<ul class="navbar-nav">
+			
 			<li class="nav-item active"><a class="nav-link dropdown-toggle"
 				id="navbardrop" data-toggle="dropdown"> <span
 					class="glyphicon glyphicon-user"></span> <c:if
@@ -87,6 +88,7 @@
 				</div></li>
 			<c:if test="${pageContext.request.userPrincipal.name != null}">
 					${MenuOpcionExtras} </c:if>
+			
 		</ul>
 	</nav>
 	<!-- CONTENIDOS -->

@@ -71,16 +71,7 @@ public class FabricaController {
 	@Autowired
 	private ReservaMateriaPrimaService reservaMateriaPrimaService;
 
-	/*
-	 * @Autowired private ProblemaReportadoValidator problemaReportadoValidator;
-	 * 
-	 * @InitBinder protected void initBilder(WebDataBinder binder){
-	 * 
-	 * binder.addValidators(problemaReportadoValidator);
-	 * 
-	 * }
-	 */
-
+	
 	@RequestMapping(value = { "/completarPlanificacion" }, method = RequestMethod.GET)
 	public ModelAndView completarPlanificacion() {
 		ModelAndView model = new ModelAndView();
@@ -94,7 +85,7 @@ public class FabricaController {
 		model.addObject(
 				"MenuOpcionExtras",
 				DefinirMenu.setItemMenu(usuarioService.getUsuario(
-						DefinirMenu.USUARIO_CONECTADO).getRole()));
+						DefinirMenu.USUARIO_CONECTADO).getRole(),"FABRICA"));
 		model.addObject("ListPedidos", pedido);
 		model.addObject("idDetallePedido", new DetallePedido());
 
@@ -238,7 +229,7 @@ public class FabricaController {
 		model.addObject(
 				"MenuOpcionExtras",
 				DefinirMenu.setItemMenu(usuarioService.getUsuario(
-						DefinirMenu.USUARIO_CONECTADO).getRole()));
+						DefinirMenu.USUARIO_CONECTADO).getRole(),"FABRICA"));
 		model.setViewName("/fabrica/registrarPlanificacion");
 
 		return model;
@@ -345,7 +336,7 @@ public class FabricaController {
 		model.addObject(
 				"MenuOpcionExtras",
 				DefinirMenu.setItemMenu(usuarioService.getUsuario(
-						DefinirMenu.USUARIO_CONECTADO).getRole()));
+						DefinirMenu.USUARIO_CONECTADO).getRole(),"FABRICA"));
 
 		model.setViewName("/fabrica/registrarProblema");
 
@@ -377,7 +368,7 @@ public class FabricaController {
 		modelPage.addAttribute(
 				"MenuOpcionExtras",
 				DefinirMenu.setItemMenu(usuarioService.getUsuario(
-						DefinirMenu.USUARIO_CONECTADO).getRole()));
+						DefinirMenu.USUARIO_CONECTADO).getRole(),"FABRICA"));
 
 		if (!result.hasErrors()) {
 

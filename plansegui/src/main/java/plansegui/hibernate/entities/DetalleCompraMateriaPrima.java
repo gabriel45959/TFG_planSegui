@@ -1,6 +1,7 @@
 package plansegui.hibernate.entities;
 
-import javax.persistence.CascadeType;
+import java.util.Date;
+
 import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.FetchType;
@@ -11,6 +12,8 @@ import javax.persistence.JoinColumn;
 import javax.persistence.ManyToOne;
 import javax.persistence.OneToOne;
 import javax.persistence.Table;
+
+import org.springframework.lang.NonNull;
 
 
 @Entity(name="detalleCompraMateriaPrima")
@@ -35,6 +38,13 @@ public class DetalleCompraMateriaPrima {
 	
 	@Column(name = "dcmp_cantidad")
 	private int cantidad;
+	
+	@NonNull
+	@Column(name = "dcmp_nro_factura")
+	private String nroFactura;
+	
+	@Column(name = "dcmp_fecha_de_llegada")
+	private Date fechaLlegada;
 
 	public long getId() {
 		return id;
@@ -66,6 +76,22 @@ public class DetalleCompraMateriaPrima {
 
 	public void setCantidad(int cantidad) {
 		this.cantidad = cantidad;
+	}
+
+	public String getNroFactura() {
+		return nroFactura;
+	}
+
+	public void setNroFactura(String nroFactura) {
+		this.nroFactura = nroFactura;
+	}
+
+	public Date getFechaLlegada() {
+		return fechaLlegada;
+	}
+
+	public void setFechaLlegada(Date fechaLlegada) {
+		this.fechaLlegada = fechaLlegada;
 	}
 
 

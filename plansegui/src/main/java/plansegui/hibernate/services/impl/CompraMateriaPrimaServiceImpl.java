@@ -30,4 +30,10 @@ public class CompraMateriaPrimaServiceImpl implements CompraMateriaPrimaService 
 
 	}
 
+	@Override
+	@Transactional
+	public CompraMateriaPrima getCompraMateriaPrima(Long id) {
+		return compraMateriaPrimaDao.getCompraMateriaPrima(id);
+	}
+
 }

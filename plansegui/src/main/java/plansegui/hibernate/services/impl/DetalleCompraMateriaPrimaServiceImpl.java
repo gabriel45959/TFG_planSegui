@@ -31,4 +31,19 @@ public class DetalleCompraMateriaPrimaServiceImpl implements
 
 	}
 
+	@Override
+	@Transactional
+	public DetalleCompraMateriaPrima getDetalleCompraMateriaPrima(Long id) {
+		return detalleCompraMateriaPrimaDao.getDetalleCompraMateriaPrima(id);
+	}
+
+	@Override
+	@Transactional
+	public void actualizarDetalleCompraMateriaPrima(
+			DetalleCompraMateriaPrima detalleCompraMateriaPrima) {
+		
+		detalleCompraMateriaPrimaDao.actualizarDetalleCompraMateriaPrima(detalleCompraMateriaPrima);
+		
+	}
+
 }

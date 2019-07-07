@@ -8,6 +8,8 @@ public interface CompraMateriaPrimaService {
 	
 	public List<CompraMateriaPrima> getCompraMateriaPrima();
 	
+	public CompraMateriaPrima getCompraMateriaPrima(Long id);
+	
 	public void guardarCompraMateriaPrima(CompraMateriaPrima compraMateriaPrima);
 
 }

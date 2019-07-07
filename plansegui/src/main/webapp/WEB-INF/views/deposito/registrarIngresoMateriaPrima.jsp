@@ -36,8 +36,6 @@
 			$(this).remove();
 		});
 	}, 2060);
-
-
 </script>
 <style type="text/css">
 .error {
@@ -52,7 +50,7 @@
 			value="${_csrf.token}" />
 	</form>
 
-	<nav class="navbar navbar-expand-sm bg-secondary navbar-dark">
+	<nav class="navbar navbar-expand-sm bg-secondary navbar-dark nav-pills">
 		<ul class="navbar-nav">
 			<li class="nav-item active"><a class="nav-link dropdown-toggle"
 				id="navbardrop" data-toggle="dropdown"> <span
@@ -114,22 +112,26 @@
 							<tr data-toggle="collapse" class="accordion-toggle">
 
 								<c:forEach var="detallePedido" items="${ListDetallePedidos}">
-									<tr>
-										<td>${detallePedido.getId()}</td>
-										<td>${detallePedido.getPedido().getEmpresa().getNombre()}</td>
-										<td>${detallePedido.getCompraMateriaPrima()[0].getDetalleCompraMateriaPrima()[0].getMateriaPrima().nombre}</td>
-										<td>${detallePedido.getCompraMateriaPrima()[0].getDetalleCompraMateriaPrima()[0].cantidad}</td>
-										
-										<td><div
-												class="bg-${detallePedido.getEstado().valorVisual}">${detallePedido.getEstado().nombre}</div></td>
-										<td>${detallePedido.getCompraMateriaPrima()[0].nroFactura}</td>
-										<td><input id="fechaEntrega" type="date"
+									<c:forEach var="compraMateriaPrima" items="${detallePedido.getCompraMateriaPrima()}">
+									<c:forEach var="detalleCompraMateriaPrima" items="${compraMateriaPrima.getDetalleCompraMateriaPrima()}">
+										<tr>
+											<td>${detallePedido.getId()}</td>
+											<td>${detallePedido.getPedido().getEmpresa().getNombre()}</td>
+											<td>${detalleCompraMateriaPrima.getMateriaPrima().nombre}</td>
+											<td>${detalleCompraMateriaPrima.cantidad}</td>
+
+											<td><div
+													class="bg-${detallePedido.getEstado().valorVisual}">${detallePedido.getEstado().nombre}</div></td>
+											<td>${compraMateriaPrima.nroFactura}</td>
+											<td><input id="fechaEntrega" type="date"
 												name="fechaEntrega" class="form-control" /></td>
-										
-										
-										<td><a class="btn btn-primary"
-											href='/plansegui/fabrica/registrarPlanificacion/${detallePedido.getId()}'>Guardar</a></td>
-									</tr>
+
+
+											<td><a class="btn btn-primary"
+												href='/plansegui/fabrica/registrarPlanificacion/${detallePedido.getId()}'>Guardar</a></td>
+										</tr>
+										</c:forEach>
+									</c:forEach>
 								</c:forEach>
 							</tr>
 						</tbody>

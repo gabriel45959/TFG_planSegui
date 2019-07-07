@@ -74,7 +74,7 @@ public class VentaController {
 		model.addObject("listaProducto",productoService.getProducto());
 		model.addObject("NombrePantalla","Registrar Pedido");
 		model.setViewName("/venta/registrarPedido");
-		model.addObject("MenuOpcionExtras",DefinirMenu.setItemMenu(usuarioService.getUsuario(DefinirMenu.USUARIO_CONECTADO).getRole()));
+		model.addObject("MenuOpcionExtras",DefinirMenu.setItemMenu(usuarioService.getUsuario(DefinirMenu.USUARIO_CONECTADO).getRole(),"VENTA"));
 		return model;
 	}
 	
@@ -115,7 +115,7 @@ public class VentaController {
 			model1.addAttribute("modalopen", "false");
 			model1.addAttribute("css", "warning");
 			model1.addAttribute("msg", "Faltan ingresar datos!!");
-			model1.addAttribute("MenuOpcionExtras",DefinirMenu.setItemMenu(usuarioService.getUsuario(DefinirMenu.USUARIO_CONECTADO).getRole()));
+			model1.addAttribute("MenuOpcionExtras",DefinirMenu.setItemMenu(usuarioService.getUsuario(DefinirMenu.USUARIO_CONECTADO).getRole(),"VENTA"));
 		}
 		
 		

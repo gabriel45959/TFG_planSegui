@@ -52,7 +52,7 @@
 			value="${_csrf.token}" />
 	</form>
 
-	<nav class="navbar navbar-expand-sm bg-secondary navbar-dark">
+	<nav class="navbar navbar-expand-sm bg-secondary navbar-dark nav-pills">
 		<ul class="navbar-nav">
 			<li class="nav-item active"><a class="nav-link dropdown-toggle"
 				id="navbardrop" data-toggle="dropdown"> <span

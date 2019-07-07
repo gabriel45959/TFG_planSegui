@@ -15,6 +15,7 @@ import org.springframework.stereotype.Repository;
 
 import plansegui.hibernate.dao.CompraMateriaPrimaDao;
 import plansegui.hibernate.entities.CompraMateriaPrima;
+import plansegui.hibernate.entities.DetalleCompraMateriaPrima;
 
 @Repository
 public class CompraMateriaPrimaDaoImpl implements CompraMateriaPrimaDao {
@@ -70,6 +71,11 @@ public class CompraMateriaPrimaDaoImpl implements CompraMateriaPrimaDao {
 		}
 
 	
+	}
+
+	@Override
+	public CompraMateriaPrima getCompraMateriaPrima(Long id) {
+		return sessionFactory.getCurrentSession().get(CompraMateriaPrima.class, id);
 	}
 
 }

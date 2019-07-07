@@ -50,7 +50,8 @@
 			value="${_csrf.token}" />
 	</form>
 
-	<nav class="navbar navbar-expand-sm bg-secondary navbar-dark">
+	<nav
+		class="navbar navbar-expand-sm bg-secondary navbar-dark  nav-pills">
 		<ul class="navbar-nav">
 			<li class="nav-item active"><a class="nav-link dropdown-toggle"
 				id="navbardrop" data-toggle="dropdown"> <span
@@ -98,7 +99,7 @@
 									</div>
 								</th>
 								<th>Cliente</th>
-								<th>Producto</th>
+								<th>Materia Prima</th>
 								<th>Cantidad en Kg</th>
 								<th>Estado del pedido</th>
 								<th>Fecha de arribo</th>
@@ -110,23 +111,41 @@
 						<tbody>
 							<tr data-toggle="collapse" class="accordion-toggle">
 
-								<c:forEach var="detallePedido" items="${ListDetallePedidos}">
-									<tr>
-										<td>${detallePedido.getId()}</td>
-										<td>${detallePedido.getPedido().getEmpresa().getNombre()}</td>
-										<td>${detallePedido.getProducto().nombre}</td>
-										<td>${detallePedido.getCantidad()}</td>
-										<td><div
-												class="bg-${detallePedido.getEstado().valorVisual}">${detallePedido.getEstado().nombre}</div></td>
-										<td><input id="fechaEntrega" type="date"
-												name="fechaEntrega" class="form-control" /></td>
-										<td><input id="nroFactura" type="text"
-												class="form-control" /> </td>
-										
-										<td><a class="btn btn-primary"
-											href='/plansegui/fabrica/registrarPlanificacion/${detallePedido.getId()}'>Guardar</a></td>
-									</tr>
+								<c:forEach var="detallePedidoPag" items="${ListDetallePedidos}">
+									<c:forEach var="compraMateriaPrimaPage"
+										items="${detallePedidoPag.getCompraMateriaPrima()}">
+										<c:forEach var="detalleCompraMateriaPrimaPage"
+											items="${compraMateriaPrimaPage.getDetalleCompraMateriaPrima()}">
+											<tr>
+												<td>${detallePedidoPag.getId()}</td>
+												<td>${detallePedidoPag.getPedido().getEmpresa().getNombre()}</td>
+												<td>${detalleCompraMateriaPrimaPage.getMateriaPrima().nombre}</td>
+												<td>${detalleCompraMateriaPrimaPage.cantidad}</td>
+												<td><div
+														class="bg-${detallePedidoPag.getEstado().valorVisual}">${detallePedidoPag.getEstado().nombre}</div></td>
+												<form:form method="post" modelAttribute="compraMateriaPrima"
+													action="/plansegui/compra/registrarCompra">
+
+													<td><form:input id="fechaLlegada" type="date"
+															name="fechaLlegada" path="detalleCompraMateriaPrima[0].fechaLlegada" disabled="true" /></td>
+													<td><form:input id="nroFactura" type="text"
+															class="form-control" path="detalleCompraMateriaPrima[0].nroFactura" value="${detalleCompraMateriaPrimaPage.nroFactura}"/> <form:errors
+															path="nroFactura" cssClass="error" /></td>
+														
+													<form:hidden path="detalleCompraMateriaPrima[0].id"
+														value="${detalleCompraMateriaPrimaPage.id}" />	
+																
+													<form:hidden path="detallePedido.id"
+														value="${detallePedidoPag.id}" />
+														
+													<td><button type="submit" class="btn btn-warning">Guardar</button></td>
+												</form:form>
+											</tr>
+											
+										</c:forEach>
+									</c:forEach>
 								</c:forEach>
+
 							</tr>
 						</tbody>
 					</table>
