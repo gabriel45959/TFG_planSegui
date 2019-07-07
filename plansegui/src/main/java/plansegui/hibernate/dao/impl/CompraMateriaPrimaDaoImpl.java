@@ -59,8 +59,8 @@ public class CompraMateriaPrimaDaoImpl implements CompraMateriaPrimaDao {
 
 			session.saveOrUpdate(compraMateriaPrima);
 			
-			session.clear();
-			compraMateriaPrima=null;
+			//session.clear();
+			//compraMateriaPrima=null;
 
 		} catch (Exception e) {
 			if (transaction != null) {

@@ -29,6 +29,7 @@ import plansegui.hibernate.entities.ProblemaReportado;
 import plansegui.hibernate.entities.Producto;
 import plansegui.hibernate.entities.ReservaMateriaPrima;
 import plansegui.hibernate.services.CompraMateriaPrimaService;
+import plansegui.hibernate.services.DetalleCompraMateriaPrimaService;
 import plansegui.hibernate.services.DetallePedidoService;
 import plansegui.hibernate.services.EstadoPedidoService;
 import plansegui.hibernate.services.InventarioService;
@@ -67,6 +68,9 @@ public class FabricaController {
 
 	@Autowired
 	private CompraMateriaPrimaService compraMateriaPrimaService;
+	
+	@Autowired
+	private DetalleCompraMateriaPrimaService detalleCompraMateriaPrimaService;
 
 	@Autowired
 	private ReservaMateriaPrimaService reservaMateriaPrimaService;
@@ -99,9 +103,12 @@ public class FabricaController {
 		ModelAndView model = new ModelAndView();
 		int cantidadNecesitada = 0;
 		DetalleCompraMateriaPrima detComMat;
-		CompraMateriaPrima compra;
+		//CompraMateriaPrima compra;
 		ReservaMateriaPrima reservaMateriaPrima;
 		List<Ingrediente> noEstaInventario;
+		List<CompraMateriaPrima> comMat = new ArrayList<CompraMateriaPrima>();
+		
+		
 		log.info("Id pedido: " + id
 				+ " FabricaController-----------registrarPlanificacion ");
 
@@ -109,7 +116,9 @@ public class FabricaController {
 
 		DetallePedido detPed = detallePedidoService.getDetallePedido(new Long(
 				id));
-
+		comMat.add(new CompraMateriaPrima());
+		comMat.get(0).setDetallePedido(detPed);
+		detPed.setCompraMateriaPrima(comMat);
 		List<Inventario> inv = getInventarioDelProducto(
 				inventarioService.getInventario(), detPed.getProducto());
 
@@ -117,17 +126,17 @@ public class FabricaController {
 			log.info("tamaño del inventario: "
 					+ inv.size()
 					+ " FabricaController-----------NO existe en el inventario-------------registrarPlanificacion ");
-			pedirMateriales(detPed, model);
-
+			comMat = pedirMateriales(detPed, model,comMat);
+			
 		} else {// existe inventario
 			log.info("tamaño del inventario: "
 					+ inv.size()
 					+ " FabricaController-----------Existe en el inventario----------------registrarPlanificacion ");
-			compra = new CompraMateriaPrima();
-			detComMat = new DetalleCompraMateriaPrima();
+			//compra = new CompraMateriaPrima();
+			
 
 			for (Inventario inventario : inv) {
-
+				detComMat = new DetalleCompraMateriaPrima();
 				for (Ingrediente ingre : detPed.getProducto().getIngredientes()) {
 					log.info("cantidad ingredientes: "+detPed.getProducto().getIngredientes().size()
 							+ " " + ingre.getMateriaPrima().getId() + "=="
@@ -170,15 +179,12 @@ public class FabricaController {
 							log.info("Materia Prima: "
 									+ ingre.getMateriaPrima().getNombre()
 									+ " FabricaController----------------------------tengo pero no alcanza debo comprar----------------registrarPlanificacion ");
-							compra.setDetallePedido(detPed);
+							
 							detComMat.setCantidad(cantidadNecesitada);
-							detComMat.setCompraMateriaPrima(compra);
+							detComMat.setCompraMateriaPrima(detPed.getCompraMateriaPrima().get(0));
 							detComMat.setMateriaPrima(ingre.getMateriaPrima());
-							compra.addDetalleCompraMateriaPrima(detComMat);
-							detPed.addCompraMateriaPrima(compra);
-							compra.setDetallePedido(detPed);
-							compraMateriaPrimaService
-									.guardarCompraMateriaPrima(compra);
+							detPed.getCompraMateriaPrima().get(0).addDetalleCompraMateriaPrima(detComMat);
+							compraMateriaPrimaService.guardarCompraMateriaPrima(detPed.getCompraMateriaPrima().get(0));
 							detPed.setEstado(estadoPedidoService
 									.getEstadoPedido(new Long(2)));
 
@@ -194,6 +200,7 @@ public class FabricaController {
 			if (noEstaInventario.size() > 0) {// no esta en el inventario debo
 												// comprar
 				for (Ingrediente noInv : noEstaInventario) {
+					detComMat = new DetalleCompraMateriaPrima();
 
 					if (noInv.getMateriaPrima().isKgOCantidad()) {// /kg
 						cantidadNecesitada = ((detPed.getCantidad() * noInv
@@ -202,15 +209,11 @@ public class FabricaController {
 						cantidadNecesitada = ( detPed.getCantidad() / noInv.getPorcentaje());
 					}
 					detComMat.setCantidad(cantidadNecesitada);
-
-					compra.setDetallePedido(detPed);
-					detComMat.setCantidad(cantidadNecesitada);
-					detComMat.setCompraMateriaPrima(compra);
+					detComMat.setCompraMateriaPrima(detPed.getCompraMateriaPrima().get(0));
 					detComMat.setMateriaPrima(noInv.getMateriaPrima());
-					compra.addDetalleCompraMateriaPrima(detComMat);
-					detPed.addCompraMateriaPrima(compra);
-					compra.setDetallePedido(detPed);
-					compraMateriaPrimaService.guardarCompraMateriaPrima(compra);
+					detPed.getCompraMateriaPrima().get(0).addDetalleCompraMateriaPrima(detComMat);
+					
+					compraMateriaPrimaService.guardarCompraMateriaPrima(detPed.getCompraMateriaPrima().get(0));
 					detPed.setEstado(estadoPedidoService
 							.getEstadoPedido(new Long(2)));
 					log.info("Materia Prima: "
@@ -218,7 +221,7 @@ public class FabricaController {
 							+ " FabricaController----------------------------no esta en el inventario debo comprar----------------registrarPlanificacion ");
 				}
 			}
-
+			//compraMateriaPrimaService.guardarCompraMateriaPrima(detPed.getCompraMateriaPrima().get(0));
 			detallePedidoService.actualizarDetallePedido(detPed);
 			log.info("Id pedido: "
 					+ id
@@ -269,11 +272,11 @@ public class FabricaController {
 	 * @param detPed
 	 * @param model
 	 */
-	private void pedirMateriales(DetallePedido detPed, ModelAndView model) {
+	private List<CompraMateriaPrima> pedirMateriales(DetallePedido detPed, ModelAndView model,List<CompraMateriaPrima> comMat) {
 		DetalleCompraMateriaPrima detComMat;
 		CompraMateriaPrima compra = new CompraMateriaPrima();
 		MateriaPrima matPrima;
-		List<CompraMateriaPrima> comMat = new ArrayList<CompraMateriaPrima>();
+		
 		String msgCompraMateriaPrima = "Se informo que se debe comprar meteria prima";
 
 		detPed.setEstado(estadoPedidoService.getEstadoPedido(new Long(2)));
@@ -312,7 +315,7 @@ public class FabricaController {
 		detallePedidoService.actualizarDetallePedido(detPed);
 
 		model.addObject("msgCompraMateriaPrima", msgCompraMateriaPrima);
-
+		return comMat;
 	}
 
 	@RequestMapping(value = { "/registrarProblema/{id}" }, method = RequestMethod.GET)
