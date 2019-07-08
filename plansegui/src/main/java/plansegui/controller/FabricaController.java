@@ -313,7 +313,12 @@ public class FabricaController {
 		if(!result.hasErrors()){
 			
 			
+			detallePedido.setEstado(estadoPedidoService
+									.getEstadoPedido(new Long(5)));
+			
 			planificacionService.guardarPlanificacion(planificar);
+			
+			detallePedidoService.actualizarDetallePedido(detallePedido);
 			
 			redirectAttributes.addFlashAttribute("css", "success");
 			redirectAttributes.addFlashAttribute("msg", "La planificación fue guardada!!");
