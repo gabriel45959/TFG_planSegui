@@ -54,7 +54,6 @@
 			}
 		}
 	}
-	
 </script>
 <style type="text/css">
 .error {
@@ -64,7 +63,6 @@
 #busqueda {
 	width: 100%;
 }
-
 </style>
 </head>
 <body>
@@ -76,7 +74,7 @@
 
 	<nav class="navbar navbar-expand-sm bg-secondary navbar-dark nav-pills">
 		<ul class="navbar-nav">
-			
+
 			<li class="nav-item active"><a class="nav-link dropdown-toggle"
 				id="navbardrop" data-toggle="dropdown"> <span
 					class="glyphicon glyphicon-user"></span> <c:if
@@ -89,7 +87,7 @@
 				</div></li>
 			<c:if test="${pageContext.request.userPrincipal.name != null}">
 					${MenuOpcionExtras} </c:if>
-			
+
 		</ul>
 	</nav>
 	<!-- CONTENIDOS -->
@@ -119,10 +117,10 @@
 						<thead>
 							<tr>
 								<th>
-										<div class="input-group" style="width: 150px">
-											<label>Nro. de Pedido</label> <input type="text" id="busqueda"
-												onkeyup="funcionBuscar()" placeholder="Buscar pedido...">
-										</div>
+									<div class="input-group" style="width: 150px">
+										<label>Nro. de Pedido</label> <input type="text" id="busqueda"
+											onkeyup="funcionBuscar()" placeholder="Buscar pedido...">
+									</div>
 								</th>
 								<th>Cliente</th>
 								<th>Producto</th>
@@ -138,8 +136,7 @@
 						<tbody>
 							<!-- loop para mostrar el usuario -->
 							<c:forEach var="pedidos" items="${ListPedidos}">
-								<tr data-toggle="collapse" 
-									class="accordion-toggle">
+								<tr data-toggle="collapse" class="accordion-toggle">
 
 									<c:forEach var="detallePedido"
 										items="${pedidos.getDetallePedido()}">
@@ -148,7 +145,8 @@
 											<td>${pedidos.getEmpresa().getNombre()}</td>
 											<td>${detallePedido.getProducto().nombre}</td>
 											<td>${detallePedido.getCantidad()}</td>
-											<td><div class="bg-${detallePedido.getEstado().valorVisual}">${detallePedido.getEstado().nombre}</div></td>
+											<td><div
+													class="bg-${detallePedido.getEstado().valorVisual}">${detallePedido.getEstado().nombre}</div></td>
 											<td>${pedidos.getFechaEntrega()}</td>
 											<td><a
 												href='/plansegui/fabrica/registrarPlanificacion/${detallePedido.getId()}'><span

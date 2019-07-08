@@ -25,7 +25,7 @@ public class Maquinaria {
 	private String nombre;
 	
 	@Column(name = "ma_kg_produccion_xhs")
-	private BigDecimal kgProduccionXhs;
+	private int kgProduccionXhs;
 	
 	
 	@ManyToOne(optional = false, fetch = FetchType.EAGER)
@@ -48,11 +48,11 @@ public class Maquinaria {
 		this.nombre = nombre;
 	}
 
-	public BigDecimal getKgProduccionXhs() {
+	public int getKgProduccionXhs() {
 		return kgProduccionXhs;
 	}
 
-	public void setKgProduccionXhs(BigDecimal kgProduccionXhs) {
+	public void setKgProduccionXhs(int kgProduccionXhs) {
 		this.kgProduccionXhs = kgProduccionXhs;
 	}
 

@@ -36,8 +36,6 @@
 			$(this).remove();
 		});
 	}, 2060);
-
-
 </script>
 <style type="text/css">
 .error {
@@ -69,7 +67,96 @@
 		</ul>
 	</nav>
 	<!-- CONTENIDOS -->
-	
-${id_detalle_pedido}
+	<form:form method="post" modelAttribute="planificar"
+		action="/plansegui/fabrica/registrarPlanificacion">
+
+		<div class="container">
+			<div class="col-md-offset-1 col-md-10">
+				<h2>Registrar Planifiacion</h2>
+				<c:if test="${not empty msg}">
+					<div class="alert alert-${css} alert-dismissible" role="alert">
+						<button type="button" class="close" data-dismiss="alert"
+							aria-label="Close">
+							<span aria-hidden="true">&times;</span>
+						</button>
+						<strong>${msg}</strong>
+					</div>
+				</c:if>
+				<hr />
+
+				<div class="panel panel-primary">
+					<div class="panel-heading">
+						<div class="panel-title"></div>
+					</div>
+
+					<div class="panel-body">
+						<div class="col-md-12">
+							<div class="row">
+
+								<div class="col-md-4">
+									<div class="form-group">
+										<label>Empresa:</label> <input type="text"
+											value="${detallePedido.getPedido().getEmpresa().nombre}"
+											disabled="disabled" class="form-control" />
+									</div>
+								</div>
+								<div class="col-md-4">
+									<div class="form-group">
+										<label for="nroFactura">Producto:</label> <input type="text"
+											value="${detallePedido.getProducto().nombre}"
+											disabled="disabled" class="form-control" />
+									</div>
+
+								</div>
+								<div class="col-md-4">
+									<div class="form-group">
+										<label>Fecha de entrega:</label> <input type="text"
+											value="${detallePedido.getPedido().fechaEntrega}"
+											disabled="disabled" class="form-control" />
+									</div>
+								</div>
+							</div>
+							<hr>
+							<div class="row align-items-center">
+								<div class="col">
+									<div class="form-group">
+										<label for="observaciones">Planificar:</label>
+										<div class="row mt-2">
+
+											<div class="col-md-6">
+												<div class="form-group">
+													<label>Fecha estimada de inicio:</label> <form:input type="date" path="fechaInicioEstimada"
+														value="${fechaPlanificacion.getFechaInicioEstimada()}"
+													    class="form-control" />
+												</div>
+											</div>
+											<form:hidden path="detallePedido.id" value="${detallePedido.getId()}"/>
+											<div class="col-md-6">
+												<div class="form-group">
+													<label for="nroFactura">Fecha estimada de fin:</label> <form:input
+														type="date" value="${fechaPlanificacion.getFechaEntregaEstimada()}"
+														path="fechaEntregaEstimada"
+														 class="form-control" />
+												</div>
+
+											</div>
+										</div>
+									</div>
+
+								</div>
+							</div>
+						</div>
+					</div>
+					<!-- fin body -->
+					<div class="panel-footer">
+						<button type="submit" class="btn btn-warning">Guardar</button>
+					</div>
+
+				</div>
+
+			</div>
+
+		</div>
+	</form:form>
 </body>
 </html>

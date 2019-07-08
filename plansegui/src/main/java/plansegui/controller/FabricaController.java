@@ -1,6 +1,8 @@
 package plansegui.controller;
 
 import java.util.ArrayList;
+import java.util.Calendar;
+import java.util.Date;
 import java.util.List;
 
 import org.apache.commons.logging.Log;
@@ -21,10 +23,12 @@ import plansegui.configuration.menu.DefinirMenu;
 import plansegui.hibernate.entities.CompraMateriaPrima;
 import plansegui.hibernate.entities.DetalleCompraMateriaPrima;
 import plansegui.hibernate.entities.DetallePedido;
+import plansegui.hibernate.entities.Empresa;
 import plansegui.hibernate.entities.Ingrediente;
 import plansegui.hibernate.entities.Inventario;
 import plansegui.hibernate.entities.MateriaPrima;
 import plansegui.hibernate.entities.Pedido;
+import plansegui.hibernate.entities.Planificacion;
 import plansegui.hibernate.entities.ProblemaReportado;
 import plansegui.hibernate.entities.Producto;
 import plansegui.hibernate.entities.ReservaMateriaPrima;
@@ -34,6 +38,7 @@ import plansegui.hibernate.services.DetallePedidoService;
 import plansegui.hibernate.services.EstadoPedidoService;
 import plansegui.hibernate.services.InventarioService;
 import plansegui.hibernate.services.PedidoService;
+import plansegui.hibernate.services.PlanificacionService;
 import plansegui.hibernate.services.ProblemaReportadoService;
 import plansegui.hibernate.services.ReservaMateriaPrimaService;
 import plansegui.hibernate.services.TipoProblemaService;
@@ -74,6 +79,9 @@ public class FabricaController {
 
 	@Autowired
 	private ReservaMateriaPrimaService reservaMateriaPrimaService;
+	
+	@Autowired
+	private PlanificacionService planificacionService;  
 
 	
 	@RequestMapping(value = { "/completarPlanificacion" }, method = RequestMethod.GET)
@@ -233,12 +241,103 @@ public class FabricaController {
 				"MenuOpcionExtras",
 				DefinirMenu.setItemMenu(usuarioService.getUsuario(
 						DefinirMenu.USUARIO_CONECTADO).getRole(),"FABRICA"));
+		
+		List<Pedido> pedido = pedidoService.getPedido();
+		model.addObject("ListPedidos", pedido);
+		model.addObject("NombrePantalla", "Completar planificación");
+		model.addObject(
+				"MenuOpcionExtras",
+				DefinirMenu.setItemMenu(usuarioService.getUsuario(
+						DefinirMenu.USUARIO_CONECTADO).getRole(),"FABRICA"));
+		model.addObject("idDetallePedido", new DetallePedido());
+		
+		if(detPed.getEstado().getId()!=1){
+			model.addObject("habilitarPlanificacion", "SI");
+			model.addObject("css", "warning");
+			model.addObject("msg", "Faltan materiales, fueron solicitados a la area de compras!!");
+		}else{
+			model.addObject("css", "warning");
+			model.addObject("msg", "Existen materiales, fueron reservados!!");
+		}
+		
+		DetallePedido detPedido = detallePedidoService.getDetallePedido(new Long(id));
+		
+		model.addObject("detallePedido",detPedido);
+		
+		List<Planificacion> listPlanificaicones = planificacionService.getPlanificacion();
+		
+		int auxcantidadProducirEnHoras= detPedido.getCantidad()/detPedido.getProducto().getIdMaquinaria().get(0).getKgProduccionXhs();
+				
+		Planificacion planListo = new Planificacion();
+		
+		planListo.setFechaEntregaEstimada(new java.sql.Date(sumardias(listPlanificaicones.get(0).getFechaEntregaEstimada(),Calendar.HOUR,auxcantidadProducirEnHoras).getTime()));
+		
+		planListo.setFechaInicioEstimada(listPlanificaicones.get(0).getFechaEntregaEstimada());
+		
+		model.addObject("detallePedido",detallePedidoService.getDetallePedido(new Long(id)));
+		
+		model.addObject("fechaPlanificacion",planListo);
+		
 		model.setViewName("/fabrica/registrarPlanificacion");
 
 		return model;
 
 	}
-
+	
+	/**
+	 * iniccializo los obj para la vista
+	 * @return
+	 */
+	@ModelAttribute("planificar")
+	public Planificacion getPlanificar(){
+		
+		Planificacion pla= new Planificacion();
+		
+		pla.setDetallePedido(new DetallePedido());
+		
+		return pla;
+	}
+	
+	
+	@RequestMapping(value = { "/registrarPlanificacion" }, method = RequestMethod.POST)
+	public String registrarPlanificacion(@ModelAttribute("planificar") Planificacion planificar,BindingResult result, Model model1, final RedirectAttributes redirectAttributes) {
+		
+		DetallePedido detallePedido = detallePedidoService.getDetallePedido(planificar.getDetallePedido().getId());
+		
+		planificar.setDetallePedido(detallePedido);
+		
+		log.info("fecha inicio: "
+				+ planificar.getFechaInicioEstimada()
+				+ " FabricaController---------------------registrarPlanificacion fecha entrega: "+planificar.getFechaEntregaEstimada());
+		
+		if(!result.hasErrors()){
+			
+			
+			planificacionService.guardarPlanificacion(planificar);
+			
+			redirectAttributes.addFlashAttribute("css", "success");
+			redirectAttributes.addFlashAttribute("msg", "La planificación fue guardada!!");
+			
+			return "redirect:/fabrica/completarPlanificacion";
+			
+		}else{
+			model1.addAttribute("modalopen", "false");
+			model1.addAttribute("css", "warning");
+			model1.addAttribute("msg", "Faltan ingresar datos!!");
+			model1.addAttribute("MenuOpcionExtras",DefinirMenu.setItemMenu(usuarioService.getUsuario(DefinirMenu.USUARIO_CONECTADO).getRole(),"VENTA"));
+		}
+		
+		
+		return  "/fabrica/completarPlanificacion";
+	}
+	public static Date sumardias(Date fecha, int campo, int valor){
+	      if (valor==0) return fecha;
+	      Calendar calendar = Calendar.getInstance();
+	      calendar.setTime(fecha); 
+	      calendar.add(campo, valor); 
+	      return calendar.getTime(); 
+	}
+	
 	/**
 	 * materia prima que no esta en el inventario
 	 * 
@@ -317,7 +416,12 @@ public class FabricaController {
 		model.addObject("msgCompraMateriaPrima", msgCompraMateriaPrima);
 		return comMat;
 	}
-
+	/**
+	 * Registrar un problema
+	 * @param id
+	 * @param modelPage
+	 * @return
+	 */
 	@RequestMapping(value = { "/registrarProblema/{id}" }, method = RequestMethod.GET)
 	public ModelAndView registrarProblema(@PathVariable("id") String id,
 			Model modelPage) {
@@ -358,7 +462,15 @@ public class FabricaController {
 		promRep.setDetallePedido(new DetallePedido());
 		return promRep;
 	}
-
+	/**
+	 * Grabar un problema
+	 * 
+	 * @param problemaReportado
+	 * @param result
+	 * @param modelPage
+	 * @param redirectAttributes
+	 * @return
+	 */
 	@RequestMapping(value = { "/grabarProblema" }, method = RequestMethod.POST)
 	public String grabarProblema(
 			@ModelAttribute("registrarProblema") @Validated ProblemaReportado problemaReportado,
@@ -403,7 +515,12 @@ public class FabricaController {
 		return "/fabrica/registrarProblema";
 
 	}
-
+	/**
+	 * 
+	 * @param inv
+	 * @param producto
+	 * @return
+	 */
 	protected List<Inventario> getInventarioDelProducto(List<Inventario> inv,
 			Producto producto) {
 		List<Inventario> invenProducto = new ArrayList<Inventario>();
