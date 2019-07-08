@@ -298,4 +298,11 @@ INSERT INTO `estado_pedido` (`es_id`, `es_nombre`, `es_descripcion`, `es_valor_v
 (5, 'Listo para fabricar', 'Se esta fabricando', 'success text-white'),
 (6, 'Problemas detectados', 'Se encontraron problemas al realizar la fabricación', 'warning text-dark');
 (7, 'Finalizado', 'El pedido fue terminado', 'light text-dark');
+
+INSERT INTO `tipo_problema` (`id`, `tp_nombre`, `tp_descripcion`) VALUES
+(13, 'Otros', 'detallar el problema'),
+(12, 'Problemas electricos', 'falta de luz'),
+(11, 'Maquina averiada', 'desperfecto mecanico');
+
+
 commit;
